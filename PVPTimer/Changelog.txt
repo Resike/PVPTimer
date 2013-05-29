@@ -1,3 +1,6 @@
+* 2.5.2
+- Updated for 5.3.
+
 * 2.5.1
 - Fixed a file zip coding bug.
 

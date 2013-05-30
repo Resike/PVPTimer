@@ -4,37 +4,137 @@ local spells = {
 	-- Summon Infernal
 	[1122] = {
 		class = 'WARLOCK',
+		duration = 60,
+		cooldown = 600,
 		type = 'offensive',
 	},
 	-- Summon Doomguard
 	[18540] = {
 		class = 'WARLOCK',
+		duration = 60,
+		cooldown = 600,
 		type = 'offensive',
 	},
-	-- Demon Soul
-	[77801] = {
+	-- Dark Soul
+	[113860] = 113858,	-- Misery
+	[113861] = 113858,	-- Knowledge
+	[113858] = {		-- Instability
 		class = 'WARLOCK',
+		duration = 20,
+		cooldown = 120,
 		type = 'offensive',
 	},
 	-- Twilight Ward
 	[6229] = {
 		class = 'WARLOCK',
+		cooldown = 30,
 		type = 'defensive',
 	},
 	-- Shadowfury
 	[30283] = {
 		class = 'WARLOCK',
+		duration = 3,
+		cooldown = 30,
 		type = 'cc',
 	},
-	-- Soulburn
-	[74434] = {
+	-- Mortal Coil
+	[6789] = {
 		class = 'WARLOCK',
+		duration = 3,
+		cooldown = 45,
+		type = 'cc',
+	},
+	-- Demonic Rebirth
+	[88448] = 108559, -- To be safe
+	[108559] = {
+		class = 'WARLOCK',
+		spec = 2,
+		duration = 20,
+		cooldown = 120,
+	},
+	-- Mortal Coil
+	[6789] = {
+		class = 'WARLOCK',
+		duration = 3,
+		cooldown = 45,
+		type = 'cc',
+	},
+	-- Soul Swap
+	[86213] = 86121,
+	[86121] = {
+		class = 'WARLOCK',
+		spec = 1,
+		cooldown = 0,
+		cooldown_g = 30,
 		type = 'offensive',
 	},
-	-- Shadowflame
-	[47897] = {
+	-- Soulstone Resurrection
+	[20707] = {
 		class = 'WARLOCK',
-		type = 'root',
+		duration = 900,
+		cooldown = 600,
+		type = 'misc',
+	},
+	-- Soulstone Resurrection
+	[20707] = {
+		class = 'WARLOCK',
+		duration = 900,
+		cooldown = 600,
+		type = 'misc',
+	},
+	-- Unending Resolve
+	[104773] = {
+		class = 'WARLOCK',
+		duration = 8,
+		cooldown = 180,
+		type = 'defensive',
+	},
+	-- Dark Bargain
+	[110913] = {
+		class = 'WARLOCK',
+		duration = 8,
+		cooldown = 180,
+		type = 'defensive',
+	},
+	-- Dark Regeneration
+	[108359] = {
+		class = 'WARLOCK',
+		duration = 12,
+		cooldown = 120,
+		type = 'defensive',
+	},
+	-- Sacrficial Pact
+	[108416] = {
+		class = 'WARLOCK',
+		cooldown = 60,
+		type = 'defensive',
+	},
+	-- Unbound Will
+	[108482] = {
+		class = 'WARLOCK',
+		cooldown = 60,
+		type = 'defensive',
+	},
+	-- Grimoire of Service
+	[108501] = {
+		class = 'WARLOCK',
+		duration = 20,
+		cooldown = 120,
+		type = 'offensive',
+	},
+	-- Demonic Circle: Teleport
+	[48020] = {
+		class = 'WARLOCK',
+		cooldown = 30,
+		cooldown_g = -4,
+		type = 'misc',
+	},
+	-- Howl of Terror
+	[5484] = {
+		class = 'WARLOCK',
+		duration = 8,
+		cooldown = 40,
+		type = 'cc',
 	},
 
 	-- PET SKILLS
@@ -42,18 +142,23 @@ local spells = {
 	-- Devour Magic (Felhunter)
 	[19505] = {
 		class = 'WARLOCK',
-	type = 'misc',
+		cooldown = 15,
+		type = 'misc',
 		pet = true,
 	},
 	-- Spell Lock (Felhunter)
+	[115781] = 19647, -- Observer
 	[19647] = {
 		class = 'WARLOCK',
+		duration = 3,
+		cooldown = 24,
 		type = 'interrupt',
 		pet = true,
 	},
 	-- Whiplash (Succubus)
 	[6360] = {
 		class = 'WARLOCK',
+		cooldown = 25,
 		type = 'misc',
 		pet = true,
 	},
@@ -61,158 +166,19 @@ local spells = {
 	[89766] = {
 		class = 'WARLOCK',
 --		spec = 2,
-    	type = 'cc',
+		cooldown = 30,
+		type = 'cc',
 		pet = true,
 	},
 	-- Felstorm (Felguard)
 	[89751] = {
 		class = 'WARLOCK',
 --		spec = 2,
+		duration = 6,
+		cooldown = 45,
 		type = 'offensive',
 		pet = true,
 	},
-	-- Sacrifice (Voidwalker)
-	[89751] = {
-		class = 'WARLOCK',
-		type = 'defensive',
-		pet = true,
-	},
-	-- Conflagrate
-	[17962] = {
-		class = 'WARLOCK',
-		spec = 3,
-		type = 'offensive',
-	},
-	-- Soul Swap
-	[86213] = 86121,
-	[86121] = {
-		class = 'WARLOCK',
-		spec = 1,
-		type = 'offensive',
-	},
-	-- Soulstone Resurrection
-	[20707] = {
-		class = 'WARLOCK',
-		type = 'misc',
-	},
-    -- Disarm (Voidwalker)
-    [124539] = {
-        class = 'WARLOCK',
-        type = 'misc',
-        pet = true,
-    },
-    -- Imp Swarm
-    [104316] = {
-        class = 'WARLOCK',
-        type = 'offensive',
-    },
-    -- Shadow Bulwark (Voidwalker
-    [17767] = {
-        class = 'WARLOCK',
-        type = 'defensive',
-    },
-    -- Cauterize Master (Imp)
-    [119899] = {
-        class = 'WARLOCK',
-        type = 'defensive',
-        pet = true,
-    },
-    -- Unending Resolve
-    [104773] = {
-        class = 'WARLOCK',
-        type = 'defensive',
-    },
-    -- Demonic Circle: Teleport
-    [48020] = {
-        class = 'WARLOCK',
-        cooldown_g = -4,
-        type = 'misc',
-    },
-    -- Dark Soul
-    [77801] = {
-        class = 'WARLOCK',
-        type = 'offensive',
-    },
-    -- Dark Soul: Misery
-    [113860] = {
-        class = 'WARLOCK',
-        spec = 1,
-        type = 'offensive',
-    },
-    -- Dark Soul: Knowledge
-    [113861] = {
-        class = 'WARLOCK',
-        spec = 2,
-        type = 'offensive',
-    },
-    -- Dark Soul: Instability
-    [113858] = {
-        class = 'WARLOCK',
-        spec = 3,
-        type = 'offensive',
-    },
-    -- Carrion Swarm
-    [103967] = {
-        class = 'WARLOCK',
-        spec = 2,
-        type = 'interrupt',
-    },
-    -- Flames of Xoroth
-    [120451] = {
-        class = 'WARLOCK',
-        spec = 2,
-        type = 'misc',
-    },
-    -- Archimonde's Vengeance
-    [108505] = {
-        class = 'WARLOCK',
-        type = 'offensive',
-    },
-    -- Dark Bargain
-    [110913] = {
-        class = 'WARLOCK',
-        type = 'defensive',
-    },
-    -- Dark Regeneration
-    [108359] = {
-        class = 'WARLOCK',
-        type = 'defensive',
-    },
-    -- Grimoire of Sacrifice
-    [108503] = {
-        class = 'WARLOCK',
-        type = 'offensive',
-    },
-    -- Grimoire of Service
-    [108501] = {
-        class = 'WARLOCK',
-        type = 'offensive',
-    },
-    -- Howl of Terror
-    [5484] = {
-        class = 'WARLOCK',
-        type = 'cc',
-    },
-    -- Kil'jaeden's Cunning
-    [119049] = {
-        class = 'WARLOCK',
-        type = 'offensive',
-    },
-    -- Mortal Coil
-    [6789] = {
-        class = 'WARLOCK',
-        type = 'cc',
-    },
-    -- Sacrificial Pact
-    [108416] = {
-        class = 'WARLOCK',
-        type = 'defensive',
-    },
-    -- Unbound Will
-    [108482] = {
-        class = 'WARLOCK',
-        type = 'defensive',
-    },
 }
 
 local spec = {

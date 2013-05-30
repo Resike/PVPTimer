@@ -14,7 +14,7 @@ local spells = {
 		type = 'defensive',
 	},
 	-- Battle Standard
-	[23034] = 23025,
+	[23034] = 23035,
 	[23035] = {
 		class = 'ITEM',
 		duration = 120,

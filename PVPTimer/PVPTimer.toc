@@ -1,11 +1,11 @@
 ﻿## Interface: 50300
-## X-Curse-Packaged-Version: 2.5.2-release
+## X-Curse-Packaged-Version: 2.5.3-release
 ## X-Curse-Project-Name: PvPTimer
 ## X-Curse-Project-ID: pvptimer
 ## X-Curse-Repository-ID: wow/pvptimer/mainline
 
-## Title: PvPTimer |cFF00FF002.5.2-release
-## Version: 2.5.2-release
+## Title: PvPTimer |cFF00FF002.5.3-release
+## Version: 2.5.3-release
 ## Notes: PvP timer and cooldown tracker
 ## Author: Zardas and Resike
 

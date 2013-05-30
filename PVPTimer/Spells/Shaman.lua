@@ -6,160 +6,192 @@ local spells = {
 	-- Bloodlust
 	[2825] = {
 		class = 'SHAMAN',
+		duration = 40,
+		cooldown = 300,
 		type = 'offensive',
 	},
 	-- Elemental Mastery
 	[16166] = {
 		class = 'SHAMAN',
+		duration = 20,
+		cooldown = 120,
 		type = 'offensive',
 	},
 	-- Feral Spirit
 	[51533] = {
 		class = 'SHAMAN',
 		spec = 2,
+		duration = 30,
+		cooldown = 120,
 		type = 'offensive',
 	},
 	-- Earth Elemental Totem
 	[2062] = {
 		class = 'SHAMAN',
+		duration = 60,
+		cooldown = 300,
 		type = 'offensive',
 	},
 	-- Fire Elemental Totem
 	[2894] = {
 		class = 'SHAMAN',
-        cooldown_g = -120,
+		duration = 60,
+		cooldown = 300,
+		cooldown_g = -120, -- 40%
 		type = 'offensive',
 	},
 	-- Shamanistic Rage
 	[30823] = {
 		class = 'SHAMAN',
 		spec = 2,
+		duration = 15,
+		cooldown = 60,
 		type = 'defensive',
 	},
 	-- Spirit Link Totem
 	[98008] = {
 		class = 'SHAMAN',
+		duration = 6,
+		cooldown = 180,
 		type = 'defensive',
 	},
 
 	-- Wind Shear
 	[57994] = {
 		class = 'SHAMAN',
-        cooldown_g = 3,
+		cooldown = 12,
 		type = 'interrupt',
 	},
 	-- Spiritwalker's Grace
 	[79206] = {
 		class = 'SHAMAN',
+		duration = 15,
+		cooldown = 120,
 		type = 'misc',
 	},
-	-- Nature's Swiftness
+	-- Ancestral Swiftness
 	[16188] = {
 		class = 'SHAMAN',
-		spec = 3,
+		cooldown = 60,
 		type = 'misc',
 	},
 	-- Hex
 	[51514] = {
 		class = 'SHAMAN',
-        cooldown_g = -10,
+		duration = 8,
+		cooldown = 45,
+		cooldown_g = -10,
 		type = 'cc',
 	},
 	-- Thunderstorm
 	[51490] = {
 		class = 'SHAMAN',
 		spec = 1,
-        cooldown_g = -10,
+		cooldown = 45,
+		cooldown_g = -10,
 		type = 'offensive',
 	},
 	-- Mana Tide Totem
 	[16190] = {
 		class = 'SHAMAN',
 		spec = 3,
+		duration = 16,
+		cooldown = 180,
 		type = 'misc',
 	},
 	-- Tremor Totem
 	[8143] = {
 		class = 'SHAMAN',
+		duration = 6,
+		cooldown = 60,
 		type = 'defensive',
 	},
 	-- Grounding Totem
 	[8177] = {
 		class = 'SHAMAN',
-        cooldown_g = 35,
+		type = 'defensive',
+		cooldown = 25,
+		cooldown_g = 35,
+	},
+	-- Stormlash Totem
+	[120668] = {
+		class = 'SHAMAN',
+		duration = 10,
+		cooldown = 300,
+		type = 'offensive',
+	},
+	-- Spirit Walk
+	[58875] = {
+		class = 'SHAMAN',
+		spec = 2,
+		duration = 15,
+		cooldown = 120,
+		type = 'misc',
+	},
+	-- Ancestral Guidance
+	[108281] = {
+		class = 'SHAMAN',
+		duration = 10,
+		cooldown = 120,
 		type = 'defensive',
 	},
-    -- Earthbind Totem
-    [2484] = {
-        class = 'SHAMAN',
-        type = 'root',
-    },
-    -- Healing Stream Totem
-    [5394] = {
-        class = 'SHAMAN',
-        type = 'defensive',
-    },
-    -- Capacitor Totem
-    [108269] = {
-        class = 'SHAMAN',
-        type = 'cc',
-    },
-    -- Stormlash Totem
-    [120668] = {
-        class = 'SHAMAN',
-        type = 'offensive',
-    },
-    -- Ascendance
-    [114049] = {
-        class = 'SHAMAN',
-        type = 'offensive',
-    },
-    -- Spirit Walk
-    [58875] = {
-        class = 'SHAMAN',
-        cooldown_g = -30,
-        type = 'misc',
-    },
-    -- Ancestral Guidance
-    [108281] = {
-        class = 'SHAMAN',
-        type = 'defensive',
-    },
-    -- Ancestral Swiftness
-    [16188] = {
-        class = 'SHAMAN',
-        type = 'misc',
-    },
-    -- Astral Shift
-    [108271] = {
-        class = 'SHAMAN',
-        type = 'defensive',
-    },
-    -- Call of the Elements
-    [108285] = {
-        class = 'SHAMAN',
-        type = 'misc',
-    },
-    -- Earthgrab Totem
-    [51485] = {
-        class = 'SHAMAN',
-        type = 'root',
-    },
-    -- Healing Tide Totem
-    [108280] = {
-        class = 'SHAMAN',
-        type = 'defensive',
-    },
-    -- Stone Bulwark Totem
-    [108270] = {
-        class = 'SHAMAN',
-        type = 'defensive',
-    },
-    -- Windwalk Totem
-    [108273] = {
-        class = 'SHAMAN',
-        type = 'misc',
-    },
+	-- Astral Shift
+	[108271] = {
+		class = 'SHAMAN',
+		duration = 6,
+		cooldown = 120,
+		type = 'defensive',
+	},
+	-- Windwalk Totem
+	[108273] = {
+		class = 'SHAMAN',
+		duration = 6,
+		cooldown = 60,
+		type = 'misc',
+	},
+	-- Capacitor Totem
+	[108269] = {
+		class = 'SHAMAN',
+		duration = 5,
+		cooldown = 45,
+		type = 'cc',
+	},
+	-- Earthgrab Totem
+	[51485] = {
+		class = 'SHAMAN',
+		duration = 5,
+		cooldown = 30,
+		type = 'root',
+	},
+	-- Healing Tide Totem
+	[108280] = {
+		class = 'SHAMAN',
+		duration = 11,
+		cooldown = 180,
+		type = 'defensive',
+	},
+	-- Stone Bulwark Totem
+	[108270] = {
+		class = 'SHAMAN',
+		duration = 30,
+		cooldown = 60,
+		type = 'defensive',
+	},
+	-- Call of The Elements
+	[108285] = {
+		class = 'SHAMAN',
+		cooldown = 60,
+		resets = {
+			108269,
+			8177,
+			51485,
+			8143,
+			--5394,
+			108270,
+			108273,
+		},
+		type = 'defensive',
+	},
 }
 
 local spec = {
@@ -168,7 +200,7 @@ local spec = {
 	-- Earth Shield
 	[974] = 3,
 	-- Fulmination
-	[88766] = 1,
+	[88767] = 1,
 	-- Earthquake
 	[61882] = 1,
 	-- Stormstrike

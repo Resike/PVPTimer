@@ -2,268 +2,232 @@ local addon = PvPTimer
 
 local spells = {
 	-- Berserk
+	[106951] = 50334,
 	[50334] = {
 		class = 'DRUID',
-        spec = 2,
+		spec = 2,
+		duration = 15,
+		cooldown = 180,
 		type = 'offensive',
 	},
 	-- Tiger's Fury
 	[5217] = {
 		class = 'DRUID',
-        spec = 2,
+		duration = 6,
+		cooldown = 30,
 		type = 'offensive',
 	},
 	-- Force of Nature
-	[106737] = {
+	[102693] = 33831,
+	[102706] = 33831,
+	[33831] = {
 		class = 'DRUID',
-		spec = 1,
+		duration = 15,
+		cooldown = 60,
 		type = 'offensive',
 	},
 	-- Starfall
 	[48505] = {
 		class = 'DRUID',
 		spec = 1,
+		duration = 10,
+		cooldown = 90,
 		type = 'offensive',
-	},
-	-- Frenzied Regeneration
-	[22842] = {
-		class = 'DRUID',
-		type = 'defensive',
 	},
 	-- Survival Instincts
 	[61336] = {
 		class = 'DRUID',
 		spec = 2,
-        cooldown_g = -60,
+		duration = 12,
+		cooldown = 180,
 		type = 'defensive',
 	},
 	-- Barkskin
 	[22812] = {
 		class = 'DRUID',
+		duration = 12,
+		cooldown = 60,
 		type = 'defensive',
 	},
-	-- Tree of Life
+	-- Incarnation
+	[102543] = 33891,
+	[102558] = 33891,
+	[102560] = 33891,
 	[33891] = {
 		class = 'DRUID',
-		spec = 4,
+		duration = 30,
+		cooldown = 180,
 		type = 'defensive',
 	},
-	-- Bash
+	-- Mighty Bash
 	[5211] = {
 		class = 'DRUID',
+		duration = 5,
+		cooldown = 50,
 		type = 'cc',
 	},
 	-- Skull Bash
-	[80965] = 80964,
-	[80964] = {
+	[106839] = {
 		class = 'DRUID',
-        cooldown_g = 10,
-        spec = 3,
+		spec = 2,
+		cooldown = 15,
 		type = 'interrupt',
 	},
-	-- Feral Charge - Bear
+	-- Wild Charge
+	[49376] = 16979,
+	[102401] = 16979,
+	[102383] = 16979,
+	[102417] = 16979,
 	[16979] = {
 		class = 'DRUID',
-		spec = 2,
-		type = 'root',
-	},
-	-- Feral Charge - Cat
-	[49376] = {
-		class = 'DRUID',
-		spec = 2,
+		cooldown = 15,
 		type = 'root',
 	},
 	-- Solar Beam
 	[78675] = {
 		class = 'DRUID',
 		spec = 1,
+		duration = 10,
+		duration_g = 5,
+		cooldown = 60,
 		type = 'interrupt',
 	},
 	-- Nature's Grasp
 	[16689] = {
 		class = 'DRUID',
-        cooldown_g = -30,
+		duration = 45,
+		cooldown = 60,
 		type = 'defensive',
 	},
 	-- Innervate
 	[29166] = {
 		class = 'DRUID',
+		duration = 10,
+		cooldown = 180,
 		type = 'misc',
 	},
 	-- Typhoon
 	[132469] = {
 		class = 'DRUID',
-		spec = 1,
+		duration = 6,
+		cooldown = 20,
 		type = 'root',
 	},
 	-- Dash
 	[1850] = {
 		class = 'DRUID',
-        cooldown_g = -60,
+		duration = 15,
+		cooldown = 180,
+		cooldown_g = -60,
 		type = 'misc',
 	},
 	-- Stampeding Roar
 	[77761] = 77764,
-    [106898] = 77764,
 	[77764] = {
 		class = 'DRUID',
+		duration = 8,
+		cooldown = 120,
 		type = 'misc',
 	},
 	-- Tranquility
 	[740] = {
 		class = 'DRUID',
+		duration = 8,
+		cooldown = 480,
+		cooldown_s3 = -300,
 		type = 'defensive',
 	},
 	-- Nature's Swiftness
 	[132158] = {
 		class = 'DRUID',
-		spec = 4,
+		cooldown = 60,
 		type = 'misc',
 	},
 	-- Swiftmend
 	[18562] = {
 		class = 'DRUID',
-		spec = 4,
+		spec = 3,
+		cooldown = 15,
 		type = 'defensive',
 	},
 	-- Rebirth
 	[20484] = {
 		class = 'DRUID',
+		cooldown = 600,
 		type = 'misc',
 	},
-    -- Incarnation: King of the Jungle
-    [102543] = {
-        class = 'DRUID',
-        type = 'offensive',
-    },
-    -- Incarnation: Son of Ursoc
-    [102558] = {
-        class = 'DRUID',
-        type = 'offensive',
-    },
-    -- Incarnation: Chosen of Elune
-    [102560] = {
-        class = 'DRUID',
-        type = 'offensive',
-    },
-    -- Might of Ursoc
-    [106922] = {
-        class = 'DRUID',
-        cooldown_g = 120,
-        type = 'defensive',
-    },
-    -- Bear Hug
-    [102795] = {
-        class = 'DRUID',
-        spec = 3,
-        type = 'cc',
-    },
-    -- Celestial Alignment
-    [112071] = {
-        class = 'DRUID',
-        spec = 1,
-        type = 'offensive',
-    },
-    -- Enrage
-    [5229] = {
-        class = 'DRUID',
-        spec = 3,
-        type = 'offensive',
-    },
-    -- Ironbark
-    [102342] = {
-        class = 'DRUID',
-        spec = 4,
-        type = 'defensive',
-    },
-    -- Cenarion Ward
-    [102351] = {
-        class = 'DRUID',
-        spec = 4,
-        type = 'defensive',
-    },
-    -- Disorienting Roar
-    [99] = {
-        class = 'DRUID',
-        type = 'cc',
-    },
-    -- Displacer Beast
-    [102280] = {
-        class = 'DRUID',
-        type = 'misc',
-    },
-    -- Heart of the Wild
-    [108288] = {
-        class = 'DRUID',
-        type = 'offensive',
-    },
-    -- Incarnation
-    [106731] = {
-        class = 'DRUID',
-        type = 'offensive',
-    },
-    -- Mass Entanglement
-    [102359] = {
-        class = 'DRUID',
-        type = 'root',
-    },
-    -- Mighty Bash
-    [5211] = {
-        class = 'DRUID',
-        type = 'cc',
-    },
-    -- Nature's Vigil
-    [124974] = {
-        class = 'DRUID',
-        type = 'offensive',
-    },
-    -- Renewal
-    [108238] = {
-        class = 'DRUID',
-        type = 'defensive',
-    },
-    -- Typhoon
-    [132469] = {
-        class = 'DRUID',
-        type = 'root',
-    },
-    -- Ursol's Vortex
-    [102793] = {
-        class = 'DRUID',
-        type = 'root',
-    },
-    -- Faerie Fire
-    [770] = {
-        class = 'DRUID',
-        cooldown = 0,
-        cooldown_g = 15,
-        type = 'interrupt',
-    },
+	-- Ironbark
+	[102342] = {
+		class = 'DRUID',
+		duration = 12,
+		cooldown = 120,
+		type = 'defensive',
+	},
+	-- Might of Ursoc
+	[106922] = {
+		class = 'DRUID',
+		duration = 20,
+		cooldown = 180,
+		type = 'defensive',
+	},
+	-- Celestial Alignment
+	[112071] = {
+		class = 'DRUID',
+		duration = 15,
+		cooldown = 180,
+		type = 'offensive',
+	},
+	-- Heart of the Wild
+	-- Nature's Vigil
+	-- Mass Entanglement
+	[102359] = {
+		class = 'DRUID',
+		duration = 10,
+		cooldown = 120,
+		type = 'root',
+	},
+	-- Disorienting Roar
+	[99] = {
+		class = 'DRUID',
+		duration = 3,
+		cooldown = 30,
+		type = 'cc',
+	},
+	-- Ursol's Vortex
+	[102793] = {
+		class = 'DRUID',
+		duration = 10,
+		cooldown = 60,
+		type = 'cc',
+	},
+	-- Bear Hug
+	[102795] = {
+		class = 'DRUID',
+		spec = 4,
+		duration = 3,
+		cooldown = 60,
+		type = 'cc',
+	},
 }
 
 local spec = {
 	-- Starsurge
 	[78674] = 1,
-	-- Mangle
-	[33917] = 2,
+	-- Savage Roar
+	[52610] = 2,
+	-- Shred
+	[5221] = 2,
+	-- Berserk
+	[50334] = 2,
+	[106951] = 2,
 	-- Sunfire
 	[93402] = 1,
 	-- Moonkin Form
 	[24858] = 1,
-	-- Pulverize
-	[80313] = 2,
-    -- Ravage
-    [6785] = 3,
 	-- Wild Growth
-	[48438] = 4,
-    -- Astral Communion
-    [127663] = 1,
-    -- Starfire
-    [2912] = 1,
-    -- Sunfire
-    [93402] = 1,
-    -- Thrash
-    [106832] = 3
+	[48438] = 3,
+	-- Swiftmend
+	[18562] = 3,
 }
 
 local hs = addon.Spells

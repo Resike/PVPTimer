@@ -51,8 +51,11 @@ local function ST_GetSpellIcon(rowFrame, cellFrame, data, cols, row, realrow, co
 	if fShow then 
 		local spellID = tonumber(data[realrow].cols[COLUMN_ID].value)
     	local texture = select(3, GetSpellInfo(spellID))
-        if texture == nil then print (spellID) end
-  		cellFrame.text:SetText("|T"..texture..":16:16|t")
+		if texture ~= nil then
+  			cellFrame.text:SetText("|T"..texture..":16:16|t")
+  		else
+  			print(spellID)
+  		end
 	end
 end
 

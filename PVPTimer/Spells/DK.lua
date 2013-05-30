@@ -4,182 +4,199 @@ local spells = {
 	-- Raise Dead
 	[46584] = {
 		class = 'DEATHKNIGHT',
+		cooldown = 120,
+		duration = 60,
+		duration_s3 = -60,
 		type = 'misc',
 	},
 	-- Outbreak
 	[77575] = {
 		class = 'DEATHKNIGHT',
-        cooldown_g = -60,
+		cooldown = 60,
 		type = 'offensive',
 	},
 	-- Empower Rune Weapon
 	[47568] = {
 		class = 'DEATHKNIGHT',
+		cooldown = 300,
 		type = 'offensive',
 	},
 	-- Dancing Rune Weapon
 	[49028] = {
 		class = 'DEATHKNIGHT',
 		spec = 1,
+		duration = 12,
+		cooldown = 90,
+		type = 'offensive',
+	},
+	-- Dark Transformation
+	[63560] = {
+		class = 'DEATHKNIGHT',
+		spec = 3,
+		cooldown = 30,
 		type = 'offensive',
 	},
 	-- Pillar of Frost
 	[51271] = {
 		class = 'DEATHKNIGHT',
 		spec = 2,
+		duration = 20,
+		cooldown = 60,
 		type = 'offensive',
 	},
 	-- Summon Gargoyle
 	[49206] = {
 		class = 'DEATHKNIGHT',
 		spec = 3,
+		duration = 30,
+		cooldown = 180,
 		type = 'offensive',
 	},
 	-- Unholy Frenzy
 	[49016] = {
 		class = 'DEATHKNIGHT',
 		spec = 3,
+		duration = 30,
+		cooldown = 180,
+		type = 'offensive',
+	},
+	-- Death's Advance
+	[96268] = {
+		class = 'DEATHKNIGHT',
+		cooldown = 30,
+		type = 'offensive',
+	},
+	-- Unholy Blight
+	[115989] = {
+		class = 'DEATHKNIGHT',
+		duration = 10,
+		cooldown = 90,
 		type = 'offensive',
 	},
 	-- Icebound Fortitude
 	[48792] = {
 		class = 'DEATHKNIGHT',
-        cooldown_g = -90,
+		duration = 12,
+		cooldown = 180,
 		type = 'defensive',
 	},
 	-- Anti-Magic Shell
 	[48707] = {
 		class = 'DEATHKNIGHT',
+		duration = 5,
+		cooldown = 45,
 		type = 'defensive',
 	},
 	-- Anti-Magic Zone
 	[51052] = {
 		class = 'DEATHKNIGHT',
+		duration = 10,
+		cooldown = 120,
 		type = 'defensive',
 	},
 	-- Death Pact
 	[48743] = {
 		class = 'DEATHKNIGHT',
+		cooldown = 120,
 		type = 'defensive',
 	},
 	-- Bone Shield
 	[49222] = {
 		class = 'DEATHKNIGHT',
 		spec = 1,
+		cooldown = 60,
 		type = 'defensive',
 	},
 	-- Lichborne
 	[49039] = {
 		class = 'DEATHKNIGHT',
-		--spec = 2,
+		duration = 10,
+		cooldown = 120,
 		type = 'defensive',
 	},
 	-- Vampiric Blood
 	[55233] = {
 		class = 'DEATHKNIGHT',
 		spec = 1,
+		duration = 10,
+		cooldown = 60,
 		type = 'defensive',
 	},
 	-- Rune Tap
 	[48982] = {
 		class = 'DEATHKNIGHT',
 		spec = 1,
+		cooldown = 30,
 		type = 'defensive',
 	},
 	-- Strangulate
 	[47476] = {
 		class = 'DEATHKNIGHT',
+		duration = 5,
+		cooldown = 120,
 		type = 'interrupt',
 	},
 	-- Mind Freeze
 	[47528] = {
 		class = 'DEATHKNIGHT',
-        cooldown_g = -2,
+		cooldown = 15,
 		type = 'interrupt',
 	},
 	-- Death Grip
 	[49576] = {
 		class = 'DEATHKNIGHT',
+		cooldown = 25,
 		type = 'interrupt',
+	},
+	-- Asphyxiate
+	[108194] = {
+		class = 'DEATHKNIGHT',
+		duration = 10,
+		cooldown = 60,
+		type = 'cc',
 	},
 	-- Dark Simulacrum
 	[77606] = {
 		class = 'DEATHKNIGHT',
-        cooldown_g = -30,
+		duration = 8,
+		cooldown = 60,
 		type = 'offensive',
 	},
 	-- Gnaw (Ghoul)
 	[91800] = 47481,
 	[47481] = {
 		class = 'DEATHKNIGHT',
+		duration = 3,
+		cooldown = 60,
 		type = 'cc',
 		pet = true,
 	},
 	-- Shambling Rush (Transformed Ghoul)
 	[91802] = {
 		class = 'DEATHKNIGHT',
+		cooldown = 30,
 		type = 'offensive',
 		pet = true,
 	},
 	-- Monstrous Blow (Transformed Ghoul)
 	[91797] = {
 		class = 'DEATHKNIGHT',
+		duration = 4,
+		cooldown = 60,
 		type = 'cc',
 		pet = true,
 	},
 	-- Raise Ally
 	[61999] = {
 		class = 'DEATHKNIGHT',
+		cooldown = 600,
 		type = 'misc',
-    },
-    -- Death's Advance
-    [96268] = {
-        class = 'DEATHKNIGHT',
-        type = 'misc',
-    },
-    -- Asphyxiate
-    [108194] = {
-        class = 'DEATHKNIGHT',
-        type = 'interrupt',
-    },
-    -- Desecrated Ground
-    [108201] = {
-        class = 'DEATHKNIGHT',
-        type = 'misc',
-    },
-    -- Gorefiend's Grasp
-    [108199] = {
-        class = 'DEATHKNIGHT',
-        type = 'misc',
-    },
-    -- Plague Leech
-    [123693] = {
-        class = 'DEATHKNIGHT',
-        type = 'misc',
-    },
-    -- Purgatory
-    [114556] = {
-        class = 'DEATHKNIGHT',
-        cooldown = 180,
-        type = 'defensive',
-    },
-    -- Remorseless Winter
-    [108200] = {
-        class = 'DEATHKNIGHT',
-        type = 'cc',
-    },
-    -- Unholy Blight
-    [115989] = {
-        class = 'DEATHKNIGHT',
-        type = 'offensive',
-    }
+	}
 }
 
 local spec = {
 	-- Heart Strike
 	[55050] = 1,
-    -- Rune Strike
-    [56815] = 1,
 	-- Frost Strike
 	[49143] = 2,
 	-- Scourge Strike

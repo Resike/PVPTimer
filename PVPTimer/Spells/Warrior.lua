@@ -4,180 +4,182 @@ local spells = {
 	-- Recklessness
 	[1719] = {
 		class = 'WARRIOR',
-		type = 'offensive',
-	},
-	-- Death Wish
-	[12292] = {
-		class = 'WARRIOR',
-		spec = 2,
+		duration = 12,
+		cooldown = 300,
 		type = 'offensive',
 	},
 	-- Shattering Throw
 	[64382] = {
 		class = 'WARRIOR',
-		type = 'offensive',
-	},
-	-- Deadly Calm
-	[85730] = {
-		class = 'WARRIOR',
+		duration = 10,
+		cooldown = 300,
 		type = 'offensive',
 	},
 	-- Heroic Throw
-	[57755] = {
+	[57755] = { 
 		class = 'WARRIOR',
-		type = 'interrupt',
+		cooldown = 30,
+		type = 'offensive', -- Silence glyphed
 	},
 	-- Bladestorm
 	[46924] = {
 		class = 'WARRIOR',
+		duration = 6,
+		cooldown = 90,
 		type = 'offensive',
 	},
-	-- Spell Reflection
+	-- Shpell Reflect
 	[23920] = {
 		class = 'WARRIOR',
-        cooldown_g = -5,
+		duration = 5,
+		cooldown = 25,
+		cooldown_g = -5,
 		type = 'defensive',
 	},
 	-- Intervene
 	[3411] = {
 		class = 'WARRIOR',
-		type = 'defensive',
+		cooldown = 30,
+		type = 'misc',
 	},
 	-- Shield Wall
 	[871] = {
 		class = 'WARRIOR',
-        cooldown_g = 120,
-        cooldown_s3 = -180,
+		duration = 12,
+		cooldown = 300,
+		cooldown_s3 = -180,
+		cooldown_g = 120,
 		type = 'defensive',
 	},
 	-- Last Stand
 	[12975] = {
 		class = 'WARRIOR',
 		spec = 3,
+		duration = 20,
+		cooldown = 180,
 		type = 'defensive',
 	},
 	-- Rallying Cry
 	[97462] = {
 		class = 'WARRIOR',
-	    type = 'defensive',
-	},
-	-- Shield Block
-	[2565] = {
-		class = 'WARRIOR',
-	    type = 'defensive',
+		duration = 10,
+		cooldown = 180,
+		type = 'defensive',
 	},
 	-- Enraged Regeneration
 	[55694] = {
 		class = 'WARRIOR',
-	    type = 'defensive',
+		duration = 5,
+		cooldown = 60,
+		type = 'defensive',
 	},
 	-- Berserker Rage
 	[18499] = {
 		class = 'WARRIOR',
+		duration = 6,
+		cooldown = 30,
 		type = 'defensive',
 	},
 	-- Pummel
 	[6552] = {
 		class = 'WARRIOR',
+		cooldown = 15,
 		type = 'interrupt',
 	},
 	-- Charge
 	[100] = {
 		class = 'WARRIOR',
+		cooldown = 20,
+		cooldown_t = -8,
 		type = 'cc',
 	},
 	-- Heroic Leap
 	[6544] = {
 		class = 'WARRIOR',
-        cooldown_g = -15,
+		cooldown = 45,
 		type = 'misc',
 	},
 	-- Disarm
 	[676] = {
 		class = 'WARRIOR',
+		cooldown = 60,
 		type = 'misc',
 	},
 	-- Shockwave
 	[46968] = {
 		class = 'WARRIOR',
+		duration = 4,
+		cooldown = 20,
 		type = 'cc',
 	},
 	-- Intimidating Shout
 	[5246] = {
 		class = 'WARRIOR',
+		duration = 8,
+		cooldown = 60,
 		type = 'cc',
 	},
-    -- Demoralizing Banner
-    [114203] = {
-        class = 'WARRIOR',
-        type = 'defensive',
-    },
-    -- Skull Banner
-    [114207] = {
-        class = 'WARRIOR',
-        type = 'offensive',
-    },
-    -- Avatar
-    [107574] = {
-        class = 'WARRIOR',
-        type = 'offensive',
-    },
-    -- Bloodbath
-    [12292] = {
-        class = 'WARRIOR',
-        type = 'offensive',
-    },
-    -- Disrupting Shout
-    [102060] = {
-        class = 'WARRIOR',
-        type = 'interrupt',
-    },
-    -- Dragon Roar
-    [118000] = {
-        class = 'WARRIOR',
-        type = 'cc',
-    },
-    -- Impending Victory
-    [103840] = {
-        class = 'WARRIOR',
-        type = 'offensive',
-    },
-    -- Mass Spell Reflection
-    [114028] = {
-        class = 'WARRIOR',
-        type = 'defensive',
-    },
-    -- Safeguard
-    [114029] = {
-        class = 'WARRIOR',
-        type = 'defensive',
-    },
-    -- Staggering Shout
-    [107566] = {
-        class = 'WARRIOR',
-        type = 'root',
-    },
-    -- Storm Bolt
-    [107570] = {
-        class = 'WARRIOR',
-        type = 'cc',
-    },
-    -- Vigilance
-    [114030] = {
-        class = 'WARRIOR',
-        type = 'defensive',
-    },
-    -- Die by the Sword
-    [118038] = {
-        class = 'WARRIOR',
-        spec = 2,
-        type = 'defensive',
-    },
-    -- Demoralizing Shout
-    [1160] = {
-        class = 'WARRIOR',
-        type = 'defensive',
-    },
+	-- Die by the Sword
+	[118038] = {
+		class = 'WARRIOR',
+		duration = 8,
+		cooldown = 120,
+		type = 'defensive',
+	},
+	-- Safeguard
+	[114029] = {
+		class = 'WARRIOR',
+		duration = 6,
+		cooldown = 30,
+		type = 'defensive',
+	},
+	-- Mass Spell Reflection
+	[114028] = {
+		class = 'WARRIOR',
+		duration = 5,
+		cooldown = 60,
+		type = 'defensive',
+	},
+	-- Vigilance
+	[114030] = {
+		class = 'WARRIOR',
+		duration = 12,
+		cooldown = 120,
+		type = 'defensive',
+	},
+	-- Avatar
+	[107574] = {
+		class = 'WARRIOR',
+		duration = 20,
+		cooldown = 180,
+		type = 'offensive',
+	},
+	-- Staggering Shout
+	[107566] = {
+		class = 'WARRIOR',
+		duration = 5,
+		cooldown = 40,
+		type = 'root',
+	},-- Storm Bolt
+	[107570] = {
+		class = 'WARRIOR',
+		duration = 3,
+		cooldown = 30,
+		type = 'cc',
+	},
+	-- Dragon Roar
+	[118000] = {
+		class = 'WARRIOR',
+		duration = 3,
+		cooldown = 60,
+		type = 'cc',
+	},
+	-- Disrupting Shout
+	[102060] = {
+		class = 'WARRIOR',
+		cooldown = 40,
+		type = 'interrupt',
+	},
 }
 
 local spec = {
@@ -191,8 +193,6 @@ local spec = {
 	[85288] = 2,
 	-- Devastate
 	[20243] = 3,
-	-- Vigilance
-	[50720] = 3,
 }
 
 local hs = addon.Spells

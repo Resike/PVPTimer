@@ -46,8 +46,8 @@ local spells = {
 	[871] = {
 		class = 'WARRIOR',
 		duration = 12,
-		cooldown = 300,
-		cooldown_s3 = -180,
+		cooldown = 180,
+		cooldown_s3 = -0,
 		cooldown_g = 120,
 		type = 'defensive',
 	},
@@ -160,7 +160,8 @@ local spells = {
 		duration = 5,
 		cooldown = 40,
 		type = 'root',
-	},-- Storm Bolt
+	},
+	-- Storm Bolt
 	[107570] = {
 		class = 'WARRIOR',
 		duration = 3,

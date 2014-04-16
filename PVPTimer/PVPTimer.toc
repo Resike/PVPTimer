@@ -1,11 +1,11 @@
-﻿## Interface: 50300
-## X-Curse-Packaged-Version: 2.5.3-release
+## Interface: 50400
+## X-Curse-Packaged-Version: 2.5.7-release
 ## X-Curse-Project-Name: PvPTimer
 ## X-Curse-Project-ID: pvptimer
 ## X-Curse-Repository-ID: wow/pvptimer/mainline
 
-## Title: PvPTimer |cFF00FF002.5.3-release
-## Version: 2.5.3-release
+## Title: PvPTimer |cFF00FF002.5.6-release
+## Version: 2.5.7-release
 ## Notes: PvP timer and cooldown tracker
 ## Author: Zardas and Resike
 
@@ -52,7 +52,7 @@ Constants.lua
 Functions.lua
 
 # Spell data
-Spells\DK.lua
+Spells\DeathKnight.lua
 Spells\Druid.lua
 Spells\Hunter.lua
 Spells\Mage.lua
@@ -66,7 +66,7 @@ Spells\Warlock.lua
 Spells\Racials.lua
 Spells\Items.lua
 
-Main.lua
+PVPTimer.lua
 
 # Configuration windows
 Config.lua

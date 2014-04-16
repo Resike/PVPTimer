@@ -84,13 +84,6 @@ local spells = {
 		cooldown = 60,
 		type = 'cc',
 	},
-	-- Readiness
-	[23989] = {
-		class = 'HUNTER',
-		cooldown = 300,
-		resets = 'all',
-		type = 'misc',
-	},
 	-- Binding Shot
 	[109248] = {
 		class = 'HUNTER',

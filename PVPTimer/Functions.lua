@@ -236,19 +236,18 @@ end
 
 -- get all spells of the player and its pet
 function addon:GetUnitSpells(GUID)
-	if GUID then
-		local unit = addon:GetPlayer(GUID)
-		local spells = addon:CopyTable(unit.spells)
+	local unit = addon:GetPlayer(GUID)
+	local spells = addon:CopyTable(unit.spells)
 
-		local pet = addon:GetPet(unit.pet)
-		if pet then
-			for k, v in pairs(pet.spells) do
-				spells[k] = v
-			end
-		
-			return spells
-		end
+	local pet = addon:GetPet(unit.pet)
+	if not pet then
+		return
 	end
+	for k, v in pairs(pet.spells) do
+		spells[k] = v
+	end
+
+	return spells
 end
 
 -- gets settings based on current zone
@@ -263,7 +262,7 @@ function addon:GetZoneSetting(key, subkey)
 
 	-- arena anchors check
 	if subkey == "Anchor_Arena" then
---		return (zonetype == "arena")
+		--return (zonetype == "arena")
 		return true
 	end
 
@@ -316,22 +315,21 @@ end
 
 -- returns a pet from database, creating it if doesn't exist
 function addon:GetPet(GUID, name)
-	if GUID and name then
-		local pets = addon.Pets
-
-		if not pets[GUID] then
-			pets[GUID] = {
-				spells = {},
-				name = name,
-				class = "PRIEST",
-				owner = false,
-			}
-		end
-		
-		if pet then
-			return pets[GUID]
-		end
+	if not GUID then
+		return
 	end
+	local pets = addon.Pets
+
+	if not pets[GUID] then
+		pets[GUID] = {
+			spells = {},
+			name = name,
+			class = "PRIEST",
+			owner = false,
+		}
+	end
+
+	return pets[GUID]
 end
 
 -- returns true if unit is hostile to player
@@ -463,8 +461,6 @@ function addon:CheckPets(unit)
 	local owner = addon:GetPlayer(ownerID)
 	local pet = addon:GetPet(petID, petName)
 
-	if pet then
-		owner.pet = petID
-		pet.owner = ownerID
-	end
+	owner.pet = petID
+	pet.owner = ownerID
 end

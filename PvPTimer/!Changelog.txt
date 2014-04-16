@@ -1,0 +1,26 @@
+**2.5.7**
+* Library updates.
+* Fixed a bug with pets.
+
+**2.5.6**
+* Debug mode is off by default again. You can switch it back with "/pt debug" command if you would like to track firendly player's cooldowns too.
+
+**2.5.5**
+* Fixed a bug with target anchor.
+
+**2.5.4**
+* Anchors now wont show the player's cooldowns.
+
+**2.5.3**
+* Spell updates.
+* Library updates.
+* Fixed a bug with the Test bars. 
+
+**2.5.2**
+* Updated for 5.3.
+
+**2.5.1**
+* Fixed a file zip coding bug.
+
+**2.5.0**
+* Updated for 5.2.

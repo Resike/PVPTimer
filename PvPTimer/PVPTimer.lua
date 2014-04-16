@@ -198,7 +198,7 @@ function addon:OnInitialize()
 	addon.DB = LibStub("AceDB-3.0"):New("PTDB", addon.Defaults, true)
 	local db = addon.DB
 	
-	db.profile.Debug = true
+	db.profile.Debug = false
 
 	-- create options
 	ACR:RegisterOptionsTable("PvPTimer", addon.Options)
@@ -802,7 +802,7 @@ end
 -- get unit spec information from battleground score window
 function addon:UPDATE_BATTLEFIELD_SCORE()
 	local t = {}
-	for i=1, GetNumBattlefieldScores() do
+	for i = 1, GetNumBattlefieldScores() do
 		local name, _, _, _, _, faction, _, _, class, _, _, _, _, _, _, spec = GetBattlefieldScore(i)
 
 		if (faction == 0 and addon.Faction == "Alliance") or (faction == 1 and addon.Faction == "Horde") then
@@ -822,6 +822,9 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 	-- combatlog fail checks
 	if not srcGUID or srcGUID == GUID_INVALID or spellName == "-1" or spellID == 0 then return end
 
+	-- don't track the player's cooldowns
+	if srcGUID == UnitGUID("player") then return end
+
 	-- check if unit is player/pet
 	local isPet = addon:IsPlayerPet(srcFlags)
 	if isPet or not (addon.DB.profile.Debug or addon:IsHostile(srcFlags)) then return end
@@ -838,89 +841,87 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 	else
 		srcUnit = addon:GetPlayer(srcGUID)
 	end
+
+	-- spec detection #1 (spammable spells)
+	if not srcUnit.spec and not isPet and addon.SpecSpells[spellID] then
+		srcUnit.spec = addon.SpecSpells[spellID]
+		addon:SendAlert("spec", srcGUID)
+		addon:RefreshAnchors(true)
+	end
+
+	-- check if spell is in database
+	local spell = addon:GetSpell(spellID)
+	-- stop if not found or it has no cooldown
+	if not spell or not spell.cooldown or spell.cooldown<1 then return end
+
+	-- spec detection #2 (cd spells)
+	if not srcUnit.spec and not isPet and spell.spec then
+		srcUnit.spec = spell.spec
+		addon:SendAlert("spec", srcGUID)
+		addon:RefreshAnchors(true)
+	end
 	
-	if srcUnit then
-		-- spec detection #1 (spammable spells)
-		if not srcUnit.spec and not isPet and addon.SpecSpells[spellID] then
-			srcUnit.spec = addon.SpecSpells[spellID]
-			addon:SendAlert("spec", srcGUID)
+	if eventType == "SPELL_CAST_SUCCESS" or eventType == "SPELL_SUMMON" then
+		local t = GetTime()
+		local stype = addon:GetSpellType(spellID)
+		local anchors = addon.Anchors
+		local groups = addon.Groups
+
+		srcUnit.spells[spellID] = t
+
+		-- add spell to group anchors
+		if not groups[stype] then groups[stype] = {} end
+		local id = tostring(srcGUID).."|"..tostring(spellID)
+		groups[stype][id] = t
+		if addon.Anchors["Group_"..stype] then
+			addon:UpdateGroupAnchor(addon.Anchors["Group_"..stype])
+		end
+
+		-- handle cooldown resetting spells
+		local resets = spell.resets
+		if resets then
+			if type(resets) == "table" then
+				for k, v in pairs(resets) do
+					srcUnit.spells[v] = nil
+				end
+			elseif resets == 'all' then
+				wipe(srcUnit.spells)
+			else
+				srcUnit.spells[resets] = nil
+			end
 			addon:RefreshAnchors(true)
 		end
 
-		-- check if spell is in database
-		local spell = addon:GetSpell(spellID)
-		-- stop if not found or it has no cooldown
-		if not spell or not spell.cooldown or spell.cooldown<1 then return end
+		local cd = addon:GetSpellCooldown(spellID, srcUnit.spec)
+		-- workaround for spells that have cooldowns, but it's removed on one spec, e.g. Word of Glory
+		if cd == 0 then return end
 
-		-- spec detection #2 (cd spells)
-		if not srcUnit.spec and not isPet and spell.spec then
-			srcUnit.spec = spell.spec
-			addon:SendAlert("spec", srcGUID)
-			addon:RefreshAnchors(true)
+		-- update anchors if unit is currently targeted/focused/etc.
+		local source = srcGUID
+		if srcUnit.owner then source = srcUnit.owner end
+
+		if source == UnitGUID("target") then
+			addon:UpdateSpell(anchors.Anchor_Target, spellID, cd, cd)
+		end
+
+		if source == UnitGUID("focus") then
+			addon:UpdateSpell(anchors.Anchor_Focus, spellID, cd, cd)
 		end
 		
-		if eventType == "SPELL_CAST_SUCCESS" or eventType == "SPELL_SUMMON" then
-			local t = GetTime()
-			local stype = addon:GetSpellType(spellID)
-			local anchors = addon.Anchors
-			local groups = addon.Groups
-			
-			srcUnit.spells[spellID] = t
-
-			-- add spell to group anchors
-			if not groups[stype] then groups[stype] = {} end
-			local id = tostring(srcGUID).."|"..tostring(spellID)
-			groups[stype][id] = t
-			if addon.Anchors["Group_"..stype] then
-				addon:UpdateGroupAnchor(addon.Anchors["Group_"..stype])
+		for i = 1, 5 do
+			local a = "Anchor_Arena"..i
+			local u = "arena"..i
+			if source == UnitGUID(u) then
+				addon:UpdateSpell(anchors[a], spellID, cd, cd)
 			end
+		end
 
-			-- handle cooldown resetting spells
-			local resets = spell.resets
-			if resets then
-				if type(resets) == "table" then
-					for k, v in pairs(resets) do
-						srcUnit.spells[v] = nil
-					end
-				elseif resets == 'all' then
-					wipe(srcUnit.spells)
-				else
-					srcUnit.spells[resets] = nil
-				end
-				addon:RefreshAnchors(true)
-			end
-			
-			local cd = addon:GetSpellCooldown(spellID, srcUnit.spec)
-			-- workaround for spells that have cooldowns, but it's removed on one spec, e.g. Word of Glory
-			if cd == 0 then return end
-
-			-- update anchors if unit is currently targeted/focused/etc.
-			local source = srcGUID
-			if srcUnit.owner then source = srcUnit.owner end
-
-			if source == UnitGUID("target") then
-				addon:UpdateSpell(anchors.Anchor_Target, spellID, cd, cd)
-			end
-
-			if source == UnitGUID("focus") then
-				addon:UpdateSpell(anchors.Anchor_Focus, spellID, cd, cd)
-			end
-			
-			for i = 1, 5 do
-				local a = "Anchor_Arena"..i
-				local u = "arena"..i
-				if source == UnitGUID(u) then
-					addon:UpdateSpell(anchors[a], spellID, cd, cd)
-				end
-			end
-
-			-- send alert about spell used
-			if isPet and srcUnit.owner then
-				-- if pet has an owner then use owner's id
-				addon:SendAlert("used", srcUnit.owner, dstGUID, spellID, false)
-			else
-				addon:SendAlert("used", srcGUID, dstGUID, spellID, isPet)
-			end
+		-- send alert about spell used
+		if isPet and srcUnit.owner then
+			-- if pet has an owner then use owner's id
+			addon:SendAlert("used", srcUnit.owner, dstGUID, spellID, false)
+		else
+			addon:SendAlert("used", srcGUID, dstGUID, spellID, isPet)
 		end
 	end
 end

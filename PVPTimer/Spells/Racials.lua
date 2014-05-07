@@ -44,6 +44,7 @@ local spells = {
 	-- Every Man For Himself (Human)
 	[59752] = {
 		class = 'RACIAL',
+		duration = 0.1,
 		cooldown = 120,
 		type = 'defensive',
 	},
@@ -108,4 +109,6 @@ local spells = {
 }
 
 local hs = addon.Spells
-for k, v in pairs(spells) do hs[k] = v end
+for k, v in pairs(spells) do
+	hs[k] = v
+end

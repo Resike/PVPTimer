@@ -3,6 +3,13 @@ local addon = PvPTimer
 local spells = {
 	-- Heroism
 	[32182] = 2825,
+	-- Ascendance
+	[114049] = {
+		class = 'SHAMAN',
+		duration = 15,
+		cooldown = 180,
+		type = 'offensive',
+	},
 	-- Bloodlust
 	[2825] = {
 		class = 'SHAMAN',
@@ -210,7 +217,11 @@ local spec = {
 }
 
 local hs = addon.Spells
-for k, v in pairs(spells) do hs[k] = v end
+for k, v in pairs(spells) do
+	hs[k] = v
+end
 
 local ss = addon.SpecSpells
-for k, v in pairs(spec) do ss[k] = v end
+for k, v in pairs(spec) do
+	ss[k] = v
+end

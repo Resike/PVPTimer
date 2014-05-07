@@ -20,7 +20,6 @@ addon.AnchorCopy = false
 addon.AlertCopy = false
 
 local testspec = "Interface\\Icons\\Spell_Magic_PolymorphChicken"
-local lastZone, lastZoneType
 
 -- copy often used stuff to local variables
 local units = addon.Units
@@ -63,8 +62,7 @@ local build = select(4, GetBuildInfo())
 -- events checked
 local events = {
 	["PLAYER_ENTERING_WORLD"] = true,
-	["ZONE_CHANGED_NEW_AREA"] = true,
- 	["COMBAT_LOG_EVENT_UNFILTERED"] = true,
+	["COMBAT_LOG_EVENT_UNFILTERED"] = true,
 	["PLAYER_TARGET_CHANGED"] = true,
 	["PLAYER_FOCUS_CHANGED"] = true,
 	["ARENA_OPPONENT_UPDATE"] = true,
@@ -74,6 +72,7 @@ local events = {
 -- combatlog event subtypes checked
 local eventtypes = {
 	["SPELL_CAST_SUCCESS"] = true,
+	["SPELL_AURA_APPLIED"] = true,
 	["SPELL_SUMMON"] = true,
 }
 
@@ -100,14 +99,14 @@ local function OnAnchorChange(event, anchor, ...)
 				x = x - dx
 				y = y - dy
 			elseif anchor.name == "Anchor_Arena3" then
-				x = x - dx*2
-				y = y - dy*2
+				x = x - dx * 2
+				y = y - dy * 2
 			elseif anchor.name == "Anchor_Arena4" then
-				x = x - dx*3
-				y = y - dy*3
+				x = x - dx * 3
+				y = y - dy * 3
 			elseif anchor.name == "Anchor_Arena5" then
-				x = x - dx*4
-				y = y - dy*4
+				x = x - dx * 4
+				y = y - dy * 4
 			end
 		end
 
@@ -198,7 +197,7 @@ function addon:OnInitialize()
 	addon.DB = LibStub("AceDB-3.0"):New("PTDB", addon.Defaults, true)
 	local db = addon.DB
 	
-	db.profile.Debug = false
+	--db.profile.Debug = false
 
 	-- create options
 	ACR:RegisterOptionsTable("PvPTimer", addon.Options)
@@ -265,13 +264,13 @@ function addon:OnInitialize()
 			end
 			v.icon = select(3, GetSpellInfo(k)) or ""
 			v.id = k or 0
-            -- get cooldowns
-            if v.cooldown == nil then
-                local x = GetSpellBaseCooldown(k)
-                if not (x == nil) then
-                    v.cooldown = x/1000
-                end
-            end
+			-- get cooldowns
+			if v.cooldown == nil then
+				local x = GetSpellBaseCooldown(k)
+				if not (x == nil) then
+					v.cooldown = x / 1000
+				end
+			end
 		end
 	end
 
@@ -334,7 +333,7 @@ function addon:ChatCommand(input)
 		addon:RunTest()
 	elseif input == "reset" then
 		-- reset data
-		addon:ZONE_CHANGED_NEW_AREA(true)
+		addon:PLAYER_ENTERING_WORLD()
 	elseif input == "debug" then
 		-- debug mode
 		addon.DB.profile.Debug = not addon.DB.profile.Debug
@@ -346,9 +345,9 @@ function addon:ChatCommand(input)
 	else
 		ACD:Open("PvPTimer", "Settings")
 		-- open blizzard config
---		InterfaceOptionsFrame_OpenToCategory(addon.OptionsFrame)
+		--InterfaceOptionsFrame_OpenToCategory(addon.OptionsFrame)
 		-- workaround for options sometimes not opening: try again :)
---		InterfaceOptionsFrame_OpenToCategory(addon.OptionsFrame)
+		--InterfaceOptionsFrame_OpenToCategory(addon.OptionsFrame)
 	end
 end
 
@@ -420,7 +419,7 @@ function addon:UpdateGroupAnchor(anchor)
 		if spell then
 			local cd = addon:GetSpellCooldown(spellID, spec)
 			local duration = v + cd - GetTime()
-			if duration>0 then
+			if duration > 0 then
 				addon:UpdateSpell(anchor, spellID, duration, cd, unitname)
 			end
 		end
@@ -549,7 +548,7 @@ function addon:UpdateAnchor(anchor, spells, GUID)
 			if spell then
 				local cd = addon:GetSpellCooldown(k, unit.spec)
 				local duration = v + cd - GetTime()
-				if duration>0 then
+				if duration > 0 then
 					addon:UpdateSpell(anchor, k, duration, cd)
 				end
 			end
@@ -638,7 +637,7 @@ function addon:SendAlert(event, srcGUID, dstGUID, spellID, isPet)
 		Parrot:ShowMessage(message, area, false);
 	-- builtin combattext (msg, scroll, r, g, b)
 	elseif target == "BlizzCT" and IsAddOnLoaded("Blizzard_CombatText") then
-	    CombatText_AddMessage(message, COMBAT_TEXT_SCROLL_FUNCTION, 1, 1, 1)
+		CombatText_AddMessage(message, COMBAT_TEXT_SCROLL_FUNCTION, 1, 1, 1)
 	-- Party chat
 	elseif target == "party" then
 		SendChatMessage(rawmessage, "PARTY")
@@ -726,26 +725,11 @@ function addon:UpdateSpell(anchor, spellID, duration, maximum, unitname)
 	bar:Start()
 end
 
--- workaround for ZONE_CHANGED_NEW_AREA not always firing
+-- wipe and refresh the group anchors on loading screens
 function addon:PLAYER_ENTERING_WORLD()
-	local newZone = GetCurrentMapAreaID()
-	if lastZone ~= newZone then
-		lastZone = newZone
-		addon:ZONE_CHANGED_NEW_AREA()
-	end
-end
-
--- wipe data when entering a new zone type (world->bg, etc.)
-function addon:ZONE_CHANGED_NEW_AREA(forced)
-	local zonetype = select(2, IsInInstance())
-	if forced or zonetype ~= lastZoneType then
-		--wipe unit data
-		wipe(addon.Units)
-		wipe(addon.Groups)
-
-		addon:RefreshAnchors()
-	end
-	lastZoneType = zonetype
+	--wipe(addon.Units)
+	wipe(addon.Groups)
+	addon:RefreshAnchors()
 end
 
 -- refresh target anchor when player target changes
@@ -755,7 +739,7 @@ function addon:PLAYER_TARGET_CHANGED()
 	-- is it a valid enemy player?
 	if UnitIsPlayer("target") and (addon.DB.profile.Debug or UnitIsEnemy("player", "target")) then
 		local GUID = UnitGUID("target")
-		local unit = addon:GetPlayer(GUID)
+		--local unit = addon:GetPlayer(GUID)
 		local spells = addon:GetUnitSpells(GUID)
 		addon:CheckPets("target")
 		addon:UpdateAnchor(addon.Anchors["Anchor_Target"], spells, GUID)
@@ -771,7 +755,7 @@ function addon:PLAYER_FOCUS_CHANGED()
 	-- is it a valid enemy player?
 	if UnitIsPlayer("focus") and (addon.DB.profile.Debug or UnitIsEnemy("player", "focus")) then
 		local GUID = UnitGUID("focus")
-		local unit = addon:GetPlayer(GUID)
+		--local unit = addon:GetPlayer(GUID)
 		local spells = addon:GetUnitSpells(GUID)
 		addon:CheckPets("focus")
 		addon:UpdateAnchor(addon.Anchors["Anchor_Focus"], spells, GUID)
@@ -789,7 +773,7 @@ function addon:ARENA_OPPONENT_UPDATE()
 		local anchor = "Anchor_Arena"..i
 		if UnitIsPlayer(unitID) then
 			local GUID = UnitGUID(unitID)
-			local unit = addon:GetPlayer(GUID)
+			--local unit = addon:GetPlayer(GUID)
 			local spells = addon:GetUnitSpells(GUID)
 			addon:CheckPets(unitID)
 			addon:UpdateAnchor(addon.Anchors[anchor], spells, GUID)
@@ -823,7 +807,7 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 	if not srcGUID or srcGUID == GUID_INVALID or spellName == "-1" or spellID == 0 then return end
 
 	-- don't track the player's cooldowns
-	if srcGUID == UnitGUID("player") then return end
+	--if srcGUID == UnitGUID("player") then return end
 
 	-- check if unit is player/pet
 	local isPet = addon:IsPlayerPet(srcFlags)
@@ -852,7 +836,7 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 	-- check if spell is in database
 	local spell = addon:GetSpell(spellID)
 	-- stop if not found or it has no cooldown
-	if not spell or not spell.cooldown or spell.cooldown<1 then return end
+	if not spell or not spell.cooldown or spell.cooldown < 1 then return end
 
 	-- spec detection #2 (cd spells)
 	if not srcUnit.spec and not isPet and spell.spec then
@@ -861,7 +845,7 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 		addon:RefreshAnchors(true)
 	end
 	
-	if eventType == "SPELL_CAST_SUCCESS" or eventType == "SPELL_SUMMON" then
+	if eventType == "SPELL_CAST_SUCCESS" or eventType == "SPELL_AURA_APPLIED" or eventType == "SPELL_SUMMON" then
 		local t = GetTime()
 		local stype = addon:GetSpellType(spellID)
 		local anchors = addon.Anchors

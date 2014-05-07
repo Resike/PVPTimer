@@ -1,11 +1,39 @@
 local addon = PvPTimer
 
 local spells = {
+	-- Bloodbath
+	[12292] = {
+		class = 'WARRIOR',
+		duration = 12,
+		cooldown = 60,
+		type = 'offensive',
+	},
+	-- Skull Banner
+	[114207] = {
+		class = 'WARRIOR',
+		duration = 10,
+		cooldown = 180,
+		type = 'offensive',
+	},
+	-- Demoralizing Banner
+	[114203] = {
+		class = 'WARRIOR',
+		duration = 15,
+		cooldown = 180,
+		type = 'defensive',
+	},
+	-- Mocking Banner
+	[114192] = {
+		class = 'WARRIOR',
+		duration = 30,
+		cooldown = 180,
+		type = 'defensive',
+	},
 	-- Recklessness
 	[1719] = {
 		class = 'WARRIOR',
 		duration = 12,
-		cooldown = 300,
+		cooldown = 180,
 		type = 'offensive',
 	},
 	-- Shattering Throw
@@ -19,16 +47,16 @@ local spells = {
 	[57755] = { 
 		class = 'WARRIOR',
 		cooldown = 30,
-		type = 'offensive', -- Silence glyphed
+		type = 'cc', -- Silence glyphed
 	},
 	-- Bladestorm
 	[46924] = {
 		class = 'WARRIOR',
 		duration = 6,
-		cooldown = 90,
+		cooldown = 60,
 		type = 'offensive',
 	},
-	-- Shpell Reflect
+	-- Spell Reflect
 	[23920] = {
 		class = 'WARRIOR',
 		duration = 5,
@@ -59,6 +87,14 @@ local spells = {
 		cooldown = 180,
 		type = 'defensive',
 	},
+	-- Demoralizing Shout
+	[1160] = {
+		class = 'WARRIOR',
+		spec = 3,
+		duration = 10,
+		cooldown = 60,
+		type = 'defensive',
+	},
 	-- Rallying Cry
 	[97462] = {
 		class = 'WARRIOR',
@@ -71,6 +107,12 @@ local spells = {
 		class = 'WARRIOR',
 		duration = 5,
 		cooldown = 60,
+		type = 'defensive',
+	},
+	-- Impending Victory
+	[103840] = {
+		class = 'WARRIOR',
+		cooldown = 30,
 		type = 'defensive',
 	},
 	-- Berserker Rage
@@ -89,14 +131,16 @@ local spells = {
 	-- Charge
 	[100] = {
 		class = 'WARRIOR',
+		duration = 1.5,
 		cooldown = 20,
 		cooldown_t = -8,
 		type = 'cc',
 	},
 	-- Heroic Leap
-	[6544] = {
+	[52174] = {
 		class = 'WARRIOR',
 		cooldown = 45,
+		cooldown_g = -15,
 		type = 'misc',
 	},
 	-- Disarm
@@ -109,14 +153,14 @@ local spells = {
 	[46968] = {
 		class = 'WARRIOR',
 		duration = 4,
-		cooldown = 20,
+		cooldown = 40,
 		type = 'cc',
 	},
 	-- Intimidating Shout
 	[5246] = {
 		class = 'WARRIOR',
 		duration = 8,
-		cooldown = 60,
+		cooldown = 90,
 		type = 'cc',
 	},
 	-- Die by the Sword
@@ -164,14 +208,14 @@ local spells = {
 	-- Storm Bolt
 	[107570] = {
 		class = 'WARRIOR',
-		duration = 3,
+		duration = 4,
 		cooldown = 30,
 		type = 'cc',
 	},
 	-- Dragon Roar
 	[118000] = {
 		class = 'WARRIOR',
-		duration = 3,
+		duration = 0.5,
 		cooldown = 60,
 		type = 'cc',
 	},
@@ -197,7 +241,11 @@ local spec = {
 }
 
 local hs = addon.Spells
-for k, v in pairs(spells) do hs[k] = v end
+for k, v in pairs(spells) do
+	hs[k] = v
+end
 
 local ss = addon.SpecSpells
-for k, v in pairs(spec) do ss[k] = v end
+for k, v in pairs(spec) do
+	ss[k] = v
+end

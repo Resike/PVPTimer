@@ -140,7 +140,7 @@ function addon:GetGlyphSettings(spellID, spec)
 	local result = false
 	
 	if db[spellID] then
-		if db[spellID].glyph0 and spec == 0 then
+		if db[spellID].glyph0 and (spec == 0 or spec == nil) then
 			result = true
 		elseif db[spellID].glyph1 and spec == 1 then
 			result = true
@@ -214,11 +214,11 @@ function addon:GetSpellCooldown(spellID, spec)
 	if spell.cooldown_s3 and spec == 3 then
 		cd = cd + spell.cooldown_s3
 	end
-    if spell.cooldown_s4 and spec == 4 then
-        cd = cd + spell.cooldown_s3
-    end
+	if spell.cooldown_s4 and spec == 4 then
+		cd = cd + spell.cooldown_s3
+	end
 
-    return cd
+	return cd
 end
 
 function addon:GetSpellType(id)
@@ -240,11 +240,10 @@ function addon:GetUnitSpells(GUID)
 	local spells = addon:CopyTable(unit.spells)
 
 	local pet = addon:GetPet(unit.pet)
-	if not pet then
-		return
-	end
-	for k, v in pairs(pet.spells) do
-		spells[k] = v
+	if pet then
+		for k, v in pairs(pet.spells) do
+			spells[k] = v
+		end
 	end
 
 	return spells

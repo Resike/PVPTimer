@@ -85,7 +85,7 @@ local spells = {
 		type = 'misc',
 	},
 	-- Gnomish Rocket Boots
-	--[[[0] = {
+	--[[[13141] = {
 		class = 'ITEM',
 		duration = 20,
 		cooldown = 900,

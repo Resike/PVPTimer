@@ -4,13 +4,23 @@ local AceGUI = addon.Lib.AceGUI
 local L = addon.Locale
 local ST = LibStub("ScrollingTable");
 
+local ipairs = ipairs
+local pairs = pairs
+local print = print
+local select = select
+local strformat = string.format
+local tblinsert = table.insert
+local tblsort = table.sort
+local tonumber = tonumber
 local type = type
 local unpack = unpack
-local pairs = pairs
-local tonumber = tonumber
-local sformat = string.format
+
 local GetSpellInfo = GetSpellInfo
-local select = select
+local GameFontNormal = GameFontNormal
+local GameTooltip = GameTooltip
+
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+local CLASS_BUTTONS = CLASS_BUTTONS
 
 local const_racial = addon.Const.Racial
 local const_item = addon.Const.Item
@@ -28,7 +38,7 @@ for k in pairs(classes) do
 	classFilter[k] = true
 end
 
-local classFilterBoxes = {}
+local classFilterBoxes = { }
 local categoryDropdown
 local spellST
 local currentSpell
@@ -50,9 +60,9 @@ local COLUMN_G4 = 10
 local function ST_GetSpellIcon(rowFrame, cellFrame, data, cols, row, realrow, column, fShow, self, ...)
 	if fShow then 
 		local spellID = tonumber(data[realrow].cols[COLUMN_ID].value)
-    	local texture = select(3, GetSpellInfo(spellID))
-        if texture == nil then print (spellID) end
-  		cellFrame.text:SetText("|T"..texture..":16:16|t")
+		local texture = select(3, GetSpellInfo(spellID))
+		if texture == nil then print (spellID) end
+		cellFrame.text:SetText("|T"..texture..":16:16|t")
 	end
 end
 
@@ -95,7 +105,7 @@ local function ST_GetGlyph(rowFrame, cellFrame, data, cols, row, realrow, column
 		if spell.spec then
 			spec = spell.spec
 		end
-		if glyph == 0 or class == "ITEM" or class == "RACIAL" or (spec ~=0 and column - spec ~= COLUMN_G0) then
+		if glyph == 0 or class == "ITEM" or class == "RACIAL" or (spec ~= 0 and column - spec ~= COLUMN_G0) then
 			cellFrame.text:SetText("|c80808080N/A")
 			cellFrame.text:SetJustifyH("CENTER")
 			return
@@ -106,21 +116,17 @@ local function ST_GetGlyph(rowFrame, cellFrame, data, cols, row, realrow, column
 		local text
 		if column == COLUMN_G0 then
 			text = "|T"..specs["default"].icon..":16:16|t "
-        else
-            if column == COLUMN_G4 and not (class == "DRUID") then
-                cellFrame.text:SetText("|c80808080N/A")
-                cellFrame.text:SetJustifyH("CENTER")
-                return
-            else
-			    text = "|T"..specs[class][column-COLUMN_G0].icon..":16:16|t "
-            end
+		else
+			if column == COLUMN_G4 and not (class == "DRUID") then
+				cellFrame.text:SetText("|c80808080N/A")
+				cellFrame.text:SetJustifyH("CENTER")
+				return
+			else
+				text = "|T"..specs[class][column-COLUMN_G0].icon..":16:16|t "
+			end
 		end
 		
-		if (column == COLUMN_G0 and db[id] and db[id].glyph0) or
-			(column == COLUMN_G1 and db[id] and db[id].glyph1) or
-			(column == COLUMN_G2 and db[id] and db[id].glyph2) or
-            (column == COLUMN_G3 and db[id] and db[id].glyph3) or
-            (column == COLUMN_G4 and db[id] and db[id].glyph4) then
+		if (column == COLUMN_G0 and db[id] and db[id].glyph0) or (column == COLUMN_G1 and db[id] and db[id].glyph1) or (column == COLUMN_G2 and db[id] and db[id].glyph2) or (column == COLUMN_G3 and db[id] and db[id].glyph3) or (column == COLUMN_G4 and db[id] and db[id].glyph4) then
 			text = text..const_on
 		else
 			text = text..const_off
@@ -143,7 +149,7 @@ local function ST_GetSpellCategory(rowFrame, cellFrame, data, cols, row, realrow
 	if fShow then
 		local cat = data[realrow].cols[column].value
 		local spellcat = addon.DB.profile.SpellCategories[cat or "misc"]
-		local text = sformat("|cFF%02x%02x%02x%s", spellcat.r*255, spellcat.g*255, spellcat.b*255, spellcat.name)
+		local text = strformat("|cFF%02x%02x%02x%s", spellcat.r * 255, spellcat.g * 255, spellcat.b * 255, spellcat.name)
 		cellFrame.text:SetText(text)
 	end
 end
@@ -152,13 +158,13 @@ local function GetSpellTableData()
 	local categories = addon.DB.profile.SpellCategories
 	
 	local src = addon.Spells
-	local sd = {}
+	local sd = { }
 	local glyphed = ""
 
 	for k, v in pairs(src) do
 		if type(v) == "table" then
 			local spelltype = addon:GetSpellType(k)
-			sd[#sd+1] = {
+			sd[#sd + 1] = {
 				cols = {
 					{--ID
 						value = k,
@@ -173,9 +179,9 @@ local function GetSpellTableData()
 						value = spelltype,
 						color = categories[spelltype]
 					},
---					{--Duration
---						value = v.duration or "---",
---					},
+					--[[{--Duration
+						value = v.duration or "---",
+					},]]
 					{--CD
 						value = v.cooldown or "---",
 					},
@@ -191,10 +197,10 @@ local function GetSpellTableData()
 					{--Glyph
 						value = v.cooldown_g or 0,
 					},
-                    {--Glyph
-                        value = v.cooldown_g or 0,
-                    },
-                },
+					{--Glyph
+						value = v.cooldown_g or 0,
+					},
+				},
 			}
 		end
 	end
@@ -215,7 +221,7 @@ local function SetSpellCategory(self, event, value)
 	if currentSpell then
 		local db = addon.DB.profile.Spells
 		if not db[currentSpell] then
-			db[currentSpell] = {}
+			db[currentSpell] = { }
 		end
 		db[currentSpell].type = value
 	end
@@ -246,9 +252,9 @@ local function TableEnter(rowFrame, cellFrame, data, cols, row, realrow, column,
 		categoryDropdown:SetValue(stype)
 	end
 	
-	if spell>0 then
+	if spell > 0 then
 		local db = addon.DB.profile.Spells
-		if not db[spell] then db[spell] = {} end
+		if not db[spell] then db[spell] = { } end
 		db = db[spell]
 		
 		local class = data[realrow].cols[COLUMN_CLASS].value
@@ -292,14 +298,22 @@ local function TableEnter(rowFrame, cellFrame, data, cols, row, realrow, column,
 		
 		if specs[class] then
 			local line = ""
-			if spec == 0 then line = line.."\n"..L["Unknown Spec"]..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 0)) end
-			if spec == 0 or spec == 1 then line = line.."\n"..specs[class][1].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 1)) end
-			if spec == 0 or spec == 2 then line = line.."\n"..specs[class][2].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 2)) end
-			if spec == 0 or spec == 3 then line = line.."\n"..specs[class][3].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 3)) end
+			if spec == 0 then
+				line = line.."\n"..L["Unknown Spec"]..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 0))
+			end
+			if spec == 0 or spec == 1 then
+				line = line.."\n"..specs[class][1].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 1))
+			end
+			if spec == 0 or spec == 2 then
+				line = line.."\n"..specs[class][2].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 2)) end
+			if spec == 0 or spec == 3 then line = line.."\n"..specs[class][3].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 3))
+			end
 			if class == 'DRUID' then
-                if spec == 0 or spec == 4 then line = line.."\n"..specs[class][4].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 4)) end
-            end
-            tt:AddLine(line, 1, 1, 1, true)
+				if spec == 0 or spec == 4 then
+					line = line.."\n"..specs[class][4].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 4))
+				end
+			end
+			tt:AddLine(line, 1, 1, 1, true)
 		end
 
 		tt:Show()
@@ -323,14 +337,14 @@ local function TableClick(rowFrame, cellFrame, data, cols, row, realrow, column,
 		local db = addon.DB.profile.Spells
 		local id = data[realrow].cols[COLUMN_ID].value
 		if not db[id] or db[id].enabled == nil then
-			db[id] = {}
+			db[id] = { }
 			db[id].enabled = false
 		else
 			db[id].enabled = not db[id].enabled
 		end
 	elseif column >= COLUMN_G0 and column <= COLUMN_G4 and glyph ~= 0 then
 		local db = addon.DB.profile.Spells
-		if not db[id] then db[id] = {} end
+		if not db[id] then db[id] = { } end
 		if column == COLUMN_G0 then
 			db[id].glyph0 = not db[id].glyph0
 		elseif column == COLUMN_G1 then
@@ -339,9 +353,9 @@ local function TableClick(rowFrame, cellFrame, data, cols, row, realrow, column,
 			db[id].glyph2 = not db[id].glyph2
 		elseif column == COLUMN_G3 then
 			db[id].glyph3 = not db[id].glyph3
-        elseif column == COLUMN_G4 then
-            db[id].glyph4 = not db[id].glyph4
-        end
+		elseif column == COLUMN_G4 then
+			db[id].glyph4 = not db[id].glyph4
+		end
 	-- enable/disable spell
 	end
 	-- refresh tooltip
@@ -361,7 +375,7 @@ local spellTableCols = {
 	{ name = L["Spec 1"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
 	{ name = L["Spec 2"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
 	{ name = L["Spec 3"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
-    { name = L["Spec 4"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
+	{ name = L["Spec 4"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
 }
 local spellTableRows = 33
 local spellTableRowHeight = 16
@@ -370,7 +384,9 @@ function addon:CreateSpellConfig()
 	addon.Window_SpellConfig = AceGUI:Create("Window")
 	local f = addon.Window_SpellConfig
 
-	f:SetCallback("OnClose", function() f:Hide() end)
+	f:SetCallback("OnClose", function()
+		f:Hide()
+	end)
 	f:SetTitle(L["PvPTimer Spell Configuration"])
 	f:SetLayout("List")
 	f:SetWidth(955)
@@ -381,7 +397,7 @@ function addon:CreateSpellConfig()
 	spellST = ST:CreateST(spellTableCols, spellTableRows, spellTableRowHeight, nil, f.frame)
 	spellST:SetData(GetSpellTableData())
 	spellST:SetFilter(SpellFilter)
---	spellST:EnableSelection(true)
+	--spellST:EnableSelection(true)
 	spellST:RegisterEvents({
 		["OnClick"] = TableClick,
 		["OnEnter"] = TableEnter,
@@ -400,11 +416,11 @@ function addon:CreateSpellConfig()
 	filterClass:SetRelativeWidth(1)
 	g:AddChild(filterClass)
 
-	local sortedClasses = {}
+	local sortedClasses = { }
 	for k in pairs(classes) do
-		table.insert(sortedClasses, k)
+		tblinsert(sortedClasses, k)
 	end
-	table.sort(sortedClasses)
+	tblsort(sortedClasses)
 
 	for i, k in ipairs(sortedClasses) do
 		classFilterBoxes[k] = AceGUI:Create("CheckBox")
@@ -420,27 +436,33 @@ function addon:CreateSpellConfig()
 		x:SetUserData("key", k)
 		x:SetLabel(" "..classes[k])
 		x:SetValue(classFilter[k])
-		x:SetCallback("OnValueChanged", function(self, event, value) classFilter[self:GetUserData("key")] = value; spellST:SortData() end)
+		x:SetCallback("OnValueChanged", function(self, event, value)
+			classFilter[self:GetUserData("key")] = value; spellST:SortData()
+		end)
 		filterClass:AddChild(x)
 	end
 
 	local filterRacial = AceGUI:Create("CheckBox")
 	filterRacial:SetLabel(L["Racial"])
 	filterRacial:SetValue(classFilter["RACIAL"])
-	filterRacial:SetCallback("OnValueChanged", function(self, event, value) classFilter["RACIAL"] = value; spellST:SortData() end)
+	filterRacial:SetCallback("OnValueChanged", function(self, event, value)
+		classFilter["RACIAL"] = value; spellST:SortData()
+	end)
 	filterClass:AddChild(filterRacial)
 
 	local filterItems = AceGUI:Create("CheckBox")
 	filterItems:SetLabel(L["Item"])
 	filterItems:SetValue(classFilter["ITEM"])
-	filterItems:SetCallback("OnValueChanged", function(self, event, value) classFilter["ITEM"] = value; spellST:SortData() end)
+	filterItems:SetCallback("OnValueChanged", function(self, event, value)
+		classFilter["ITEM"] = value; spellST:SortData()
+	end)
 	filterClass:AddChild(filterItems)
 
 	local filterCat = AceGUI:Create("Dropdown")
 	filterCat:SetLabel(L["Category Filter"])
 	filterCat:SetRelativeWidth(1)
 	filterCat:SetMultiselect(true)
---	g:AddChild(filterCat)
+	--g:AddChild(filterCat)
 
 	local help = AceGUI:Create("Label")
 	help:SetText(L["SPELLCONFIG_HELPMSG"])
@@ -449,7 +471,7 @@ function addon:CreateSpellConfig()
 	f:AddChild(help)
 
 	local cat = AceGUI:Create("Dropdown")
-	local categories = {}
+	local categories = { }
 	for k, v in pairs(addon.DB.profile.SpellCategories) do
 		categories[k] = v.name
 	end

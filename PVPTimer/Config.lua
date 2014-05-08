@@ -2,9 +2,10 @@ local addon = PvPTimer
 local L = addon.Locale
 local LSM = addon.Lib.Media
 
-local smatch = string.match
-local sformat = string.format
+local _G = _G
 local pairs = pairs
+local strformat = string.format
+local strmatch = string.match
 
 -- generic getter/setter functions, use AceGUI's IDs to get/set values
 local function getConfigValue(i)
@@ -12,7 +13,7 @@ local function getConfigValue(i)
 
 	for k = 2, #i do
 		if i[k] ~= "X_Settings" then
-			if not db then db = {} end
+			if not db then db = { } end
 			db = db[i[k]]
 		end
 	end
@@ -22,9 +23,9 @@ end
 
 local function setConfigValue(i, v)
 	local db = addon.DB.profile
-	for k = 2, #i-1 do
+	for k = 2, #i - 1 do
 		if i[k] ~= "X_Settings" then
-			if not db[i[k]] then db[i[k]] = {} end
+			if not db[i[k]] then db[i[k]] = { } end
 			db = db[i[k]]
 		end
 	end
@@ -66,12 +67,12 @@ end
 
 -- for multiselect controls
 local function getMultiValue(i, k)
-	i[#i+1] = k
+	i[#i + 1] = k
 	return getConfigValue(i)
 end
 
 local function setMultiValue(i, k, v)
-	i[#i+1] = k
+	i[#i + 1] = k
 	setConfigValue(i, v)
 end
 
@@ -99,7 +100,9 @@ local function getIconModeEnabled(i)
 end
 
 local function IsGroupAnchor(i)
-	if smatch(i[3], "Group_") then return true end
+	if strmatch(i[3], "Group_") then
+		return true
+	end
 	return false
 end
 
@@ -229,7 +232,9 @@ local anchor = {
 				type = "input",
 				width = "full",
 				disabled = getAnchorEnabled,
-				hidden = function(i) return not IsGroupAnchor(i) end,
+				hidden = function(i) return
+					not IsGroupAnchor(i)
+				end,
 			},
 			Text_Enable = {
 				disabled = getAnchorEnabled,
@@ -564,7 +569,9 @@ local anchor = {
 				desc = L["Position of the timer text."],
 				type = "select",
 				values = const_textposition,
-				hidden = function(i) return not getIconModeEnabled(i) end,
+				hidden = function(i) return
+					not getIconModeEnabled(i)
+				end,
 			},
 			TimeOffsetX = {
 				order = 56,
@@ -574,7 +581,9 @@ local anchor = {
 				min = -50,
 				softMax = 50,
 				step = 1,
-				hidden = function(i) return not getIconModeEnabled(i) end,
+				hidden = function(i) return
+					not getIconModeEnabled(i)
+				end,
 			},
 			TimeOffsetY = {
 				order = 57,
@@ -584,7 +593,9 @@ local anchor = {
 				min = -50,
 				softMax = 50,
 				step = 1,
-				hidden = function(i) return not getIconModeEnabled(i) end,
+				hidden = function(i) return
+					not getIconModeEnabled(i)
+				end,
 			},
 			Text_Ghost = {
 				order = 60,
@@ -712,7 +723,7 @@ anchor_arena.Position.args.NextY = {
 }
 
 -- builds spell category list for color picker
-local CategoryList_Alert = {}
+local CategoryList_Alert = { }
 
 for k, v in pairs(addon.DB.profile.SpellCategories) do
 	CategoryList_Alert[k] = {
@@ -751,7 +762,9 @@ for k, v in pairs(addon.DB.profile.SpellCategories) do
 				desc = L["Copies settings on this page to memory."],
 				type = "execute",
 				func = CopyAlertSettings,
-				hidden = function(i) return (i[3] == "spec") end,
+				hidden = function(i) return
+					i[3] == "spec"
+				end,
 			},
 			PasteSettings = {
 				order = 6,
@@ -759,9 +772,11 @@ for k, v in pairs(addon.DB.profile.SpellCategories) do
 				desc = L["Applies settings in memory."],
 				type = "execute",
 				func = PasteAlertSettings,
-				hidden = function(i) return (i[3] == "spec") end,
+				hidden = function(i) return
+					i[3] == "spec"
+				end,
 				disabled = function()
-					return (addon.AlertCopy == false)
+					return addon.AlertCopy == false
 				end,
 			},
 			Enabled = {
@@ -788,7 +803,9 @@ for k, v in pairs(addon.DB.profile.SpellCategories) do
 				name = L["Alert Target"],
 				desc = L["Messages are sent to this window or addon. You may have to reload your interface (type /rl) to make any changes to other addons like MSBT visible."],
 				type = "select",
-				values = function() return addon:GetMessageFrames() end,
+				values = function()
+					return addon:GetMessageFrames()
+				end,
 				disabled = getAnchorEnabled,
 			},
 			BG_OnlyTarget = {
@@ -824,7 +841,9 @@ for k, v in pairs(addon.DB.profile.SpellCategories) do
 				name = L["Alert Target"],
 				desc = L["Messages are sent to this window or addon. You may have to reload your interface (type /rl) to make any changes to other addons like MSBT visible."],
 				type = "select",
-				values = function() return addon:GetMessageFrames() end,
+				values = function()
+					return addon:GetMessageFrames()
+				end,
 				disabled = getAnchorEnabled,
 			},
 			RatedBG_OnlyTarget = {
@@ -860,7 +879,9 @@ for k, v in pairs(addon.DB.profile.SpellCategories) do
 				name = L["Alert Target"],
 				desc = L["Messages are sent to this window or addon. You may have to reload your interface (type /rl) to make any changes to other addons like MSBT visible."],
 				type = "select",
-				values = function() return addon:GetMessageFrames() end,
+				values = function()
+					return addon:GetMessageFrames()
+				end,
 				disabled = getAnchorEnabled,
 			},
 			Arena_OnlyTarget = {
@@ -896,7 +917,9 @@ for k, v in pairs(addon.DB.profile.SpellCategories) do
 				name = L["Alert Target"],
 				desc = L["Messages are sent to this window or addon. You may have to reload your interface (type /rl) to make any changes to other addons like MSBT visible."],
 				type = "select",
-				values = function() return addon:GetMessageFrames() end,
+				values = function()
+					return addon:GetMessageFrames()
+				end,
 				disabled = getAnchorEnabled,
 			},
 			Else_OnlyTarget = {
@@ -1154,8 +1177,8 @@ local CategoryList_Anchors = {
 for k, v in pairs(addon.DB.profile.SpellCategories) do
 	CategoryList_Anchors["Group_"..k] = {
 		order = 10 + v.order,
-		name = sformat("%s: %s", L["Group"], v.name),
-		desc = sformat("%s\n\n|CFF00FF00%s|r\n%s", L["Group anchors show all spells in a category, grouped together."], v.name, v.desc),
+		name = strformat("%s: %s", L["Group"], v.name),
+		desc = strformat("%s\n\n|CFF00FF00%s|r\n%s", L["Group anchors show all spells in a category, grouped together."], v.name, v.desc),
 		type = "group",
 		childGroups = "tab",
 		args = anchor,
@@ -1186,21 +1209,27 @@ addon.Options = {
 					end,
 					desc = L["Locks or unlocks anchors so they can be dragged around and resized using the mouse."],
 					type = "execute",
-					func = function() addon:ToggleLock() end,
+					func = function()
+						addon:ToggleLock()
+					end,
 				},
 				Test = {
 					order = 3,
 					name = L["Run Test"],
 					desc = L["Shows some test bars."],
 					type = "execute",
-					func = function() addon:RunTest() end,
+					func = function()
+						addon:RunTest()
+					end,
 				},
 				OpenSpellConfig = {
 					order = 4,
 					name = L["Spell Configuration"],
 					desc = L["Opens the Spell Configuration window, where you can disable and adjust spells."],
 					type = "execute",
-					func = function() addon:ToggleSpellConfig() end,
+					func = function()
+						addon:ToggleSpellConfig()
+					end,
 				},
 				Anchors = {
 					order = 11,
@@ -1231,7 +1260,9 @@ local AceGUI = addon.Lib.AceGUI
 addon.LockMessage = AceGUI:Create("Window")
 local f = addon.LockMessage
 f.frame:SetFrameStrata("LOW")
-f:SetCallback("OnClose", function() addon.AnchorsLocked = true; addon:RefreshAnchors() end)
+f:SetCallback("OnClose", function()
+	addon.AnchorsLocked = true; addon:RefreshAnchors()
+end)
 f:SetTitle("PvPTimer Anchors Unlocked")
 f:SetLayout("Flow")
 f:SetWidth(500)
@@ -1247,12 +1278,16 @@ f:AddChild(text)
 local btn = AceGUI:Create("Button")
 btn:SetWidth(235)
 btn:SetText(L["Run Test"])
-btn:SetCallback("OnClick", function() addon:RunTest() end)
+btn:SetCallback("OnClick", function()
+	addon:RunTest()
+end)
 f:AddChild(btn)
 
 local btn2 = AceGUI:Create("Button")
 btn2:SetWidth(235)
 btn2:SetText(L["Lock anchors"])
-btn2:SetCallback("OnClick", function() addon.AnchorsLocked = true; addon:RefreshAnchors() end)
+btn2:SetCallback("OnClick", function()
+	addon.AnchorsLocked = true
+	addon:RefreshAnchors()
+end)
 f:AddChild(btn2)
-

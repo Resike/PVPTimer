@@ -1,26 +1,30 @@
 local addon = PvPTimer
 local L = addon.Locale
 
-local bband = bit.band
-local ssub = string.sub
-local smatch = string.match
-local sreplace = string.gsub
-local mabs = math.abs
-local pairs = pairs
-local type = type
+local bitband = bit.band
+local mathabs = math.abs
 local next = next
+local pairs = pairs
 local select = select
-local UnitGUID, UnitName, GetUnitName = UnitGUID, UnitName, GetUnitName
-local SecondsToTime = SecondsToTime
+local strgsub = string.gsub
+local strmatch = string.match
+local strsub = string.sub
+local tostring = tostring
+local type = type
 
-local COMBATLOG_OBJECT_REACTION_HOSTILE = COMBATLOG_OBJECT_REACTION_HOSTILE
-local COMBATLOG_OBJECT_TYPE_PET = COMBATLOG_OBJECT_TYPE_PET
-local COMBATLOG_OBJECT_TYPE_GUARDIAN = COMBATLOG_OBJECT_TYPE_GUARDIAN
-local COMBATLOG_OBJECT_CONTROL_PLAYER = COMBATLOG_OBJECT_CONTROL_PLAYER
-local IsRatedBattleground = IsRatedBattleground
-local IsInInstance = IsInInstance
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID
 local GetSpellInfo = GetSpellInfo
+local GetUnitName = GetUnitName
+local IsInInstance = IsInInstance
+local IsRatedBattleground = IsRatedBattleground
+local SecondsToTime = SecondsToTime
+local UnitGUID = UnitGUID
+local UnitName = UnitName
+
+local COMBATLOG_OBJECT_CONTROL_PLAYER = COMBATLOG_OBJECT_CONTROL_PLAYER
+local COMBATLOG_OBJECT_REACTION_HOSTILE = COMBATLOG_OBJECT_REACTION_HOSTILE
+local COMBATLOG_OBJECT_TYPE_GUARDIAN = COMBATLOG_OBJECT_TYPE_GUARDIAN
+local COMBATLOG_OBJECT_TYPE_PET = COMBATLOG_OBJECT_TYPE_PET
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local emptySpell = {
@@ -43,7 +47,7 @@ function addon:ConvertTime(number)
 	elseif number > 0 then
 		return SecondsToTime(number)
 	else
-		return "-"..SecondsToTime(mabs(number))
+		return "-"..SecondsToTime(mathabs(number))
 	end
 end
 
@@ -113,7 +117,7 @@ end
 
 -- returns database key for anchor
 function addon:GetAnchorKey(anchor)
-	if smatch(anchor, "Anchor_Arena") then
+	if strmatch(anchor, "Anchor_Arena") then
 		return "Anchor_Arena"
 	else
 		return anchor
@@ -282,7 +286,7 @@ function addon:GetPlayer(info)
 
 	local units = addon.Units
 	local name, GUID
-	if ssub(info, 1, 2) == "0x" then
+	if strsub(info, 1, 2) == "0x" then
 		GUID = info
 		name = addon:GetFullUnitName(GUID)
 	else
@@ -334,16 +338,16 @@ end
 -- returns true if unit is hostile to player
 function addon:IsHostile(flags)
 	if not flags then return false end
-	return (bband(flags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE)
+	return (bitband(flags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE)
 end
 
 -- returns true if unit is player pet
 function addon:IsPlayerPet(flags)
 	if not flags then return false end
 	-- is it controlled by a player?
-	if not bband(flags, COMBATLOG_OBJECT_CONTROL_PLAYER) == COMBATLOG_OBJECT_CONTROL_PLAYER then return false end
+	if not bitband(flags, COMBATLOG_OBJECT_CONTROL_PLAYER) == COMBATLOG_OBJECT_CONTROL_PLAYER then return false end
 	-- is it a pet or guardian?
-	return bband(flags, COMBATLOG_OBJECT_TYPE_PET) == COMBATLOG_OBJECT_TYPE_PET or bband(flags, COMBATLOG_OBJECT_TYPE_GUARDIAN) == COMBATLOG_OBJECT_TYPE_GUARDIAN or false
+	return bitband(flags, COMBATLOG_OBJECT_TYPE_PET) == COMBATLOG_OBJECT_TYPE_PET or bitband(flags, COMBATLOG_OBJECT_TYPE_GUARDIAN) == COMBATLOG_OBJECT_TYPE_GUARDIAN or false
 end
 
 -- parse message and replace tags
@@ -361,8 +365,8 @@ function addon:ParseMessage(msg, unitID, spellID, stripCodes, isPet)
 ]]
 	if not msg or msg == "" then return "" end
 	-- parse color codes
-	msg = sreplace(msg, "||c", "|c")
-	msg = sreplace(msg, "||r", "|r")
+	msg = strgsub(msg, "||c", "|c")
+	msg = strgsub(msg, "||r", "|r")
 	if not unitID then return msg end
 
 	local name, unit, spec
@@ -391,28 +395,28 @@ function addon:ParseMessage(msg, unitID, spellID, stripCodes, isPet)
 	local color_c = "|cFF"..addon:RGBtoHex(RAID_CLASS_COLORS[unit.class])
 	local color_s = "|cFF"..addon:RGBtoHex(spec.color)
 
-	msg = sreplace(msg, "%%spell%%", spell.name or "")
-	msg = sreplace(msg, "%%player%%", unit.name or "")
-	msg = sreplace(msg, "%%player2%%", unit.fullname or "")
-	msg = sreplace(msg, "%%spec%%", spec.name or "")
+	msg = strgsub(msg, "%%spell%%", spell.name or "")
+	msg = strgsub(msg, "%%player%%", unit.name or "")
+	msg = strgsub(msg, "%%player2%%", unit.fullname or "")
+	msg = strgsub(msg, "%%spec%%", spec.name or "")
 
 	if stripCodes then
 		-- strip any icons and colors
-		msg = sreplace(msg, "%%icon%%", "")
-		msg = sreplace(msg, "%%icon_s%%", "")
-		msg = sreplace(msg, "%%color%%", "")
-		msg = sreplace(msg, "%%color_c%%", "")
-		msg = sreplace(msg, "%%color_s%%", "")
-		msg = sreplace(msg, "||r", "")
-		msg = sreplace(msg, "|","||")
+		msg = strgsub(msg, "%%icon%%", "")
+		msg = strgsub(msg, "%%icon_s%%", "")
+		msg = strgsub(msg, "%%color%%", "")
+		msg = strgsub(msg, "%%color_c%%", "")
+		msg = strgsub(msg, "%%color_s%%", "")
+		msg = strgsub(msg, "||r", "")
+		msg = strgsub(msg, "|","||")
 	else
 		-- insert icons and color codes
-		msg = sreplace(msg, "%%icon%%", "|T"..spell.icon..":0|t")
-		msg = sreplace(msg, "%%icon_s%%", "|T"..spec.icon..":0|t")
-		msg = sreplace(msg, "%%color%%", color)
-		msg = sreplace(msg, "%%color_c%%", color_c)
-		msg = sreplace(msg, "%%color_s%%", color_s)
-		msg = sreplace(msg, "||r", "|r")
+		msg = strgsub(msg, "%%icon%%", "|T"..spell.icon..":0|t")
+		msg = strgsub(msg, "%%icon_s%%", "|T"..spec.icon..":0|t")
+		msg = strgsub(msg, "%%color%%", color)
+		msg = strgsub(msg, "%%color_c%%", color_c)
+		msg = strgsub(msg, "%%color_s%%", color_s)
+		msg = strgsub(msg, "||r", "|r")
 	end
 
 	return msg
@@ -426,7 +430,7 @@ end
 
 -- strips server from unit name
 function addon:SplitUnitName(unitname)
-	local name, server = smatch(unitname, "(.-)%-(.*)$")
+	local name, server = strmatch(unitname, "(.-)%-(.*)$")
 
 	if not name or not server then return unitname, nil	end
 	return name, server
@@ -436,7 +440,7 @@ end
 function addon:GetFullUnitName(unit)
 	if not unit then return "" end
 	local name, server
-	if ssub(unit, 1, 2) == "0x" then
+	if strsub(unit, 1, 2) == "0x" then
 		name = select(6, GetPlayerInfoByGUID(unit))
 		server = select(7, GetPlayerInfoByGUID(unit))
 	else

@@ -8,13 +8,13 @@ local ACD = addon.Lib.AceConfigDialog
 local LibStub = LibStub
 
 -- global tables
-addon.Anchors = {}
-addon.AnchorIcons = {}
-addon.Interface = {}
-addon.Units = {}
-addon.Pets = {}
-addon.Groups = {}
-addon.Specs = {}
+addon.Anchors = { }
+addon.AnchorIcons = { }
+addon.Interface = { }
+addon.Units = { }
+addon.Pets = { }
+addon.Groups = { }
+addon.Specs = { }
 addon.AnchorsLocked = true
 addon.AnchorCopy = false
 addon.AlertCopy = false
@@ -26,30 +26,42 @@ local units = addon.Units
 local specs = addon.Specs
 local LastEvent, LastEventTime, LastEventSource, LastEventSpell
 
-local type = type
+local _G = _G
 local pairs = pairs
-local smatch = string.match
-local sformat = string.format
-local ssub = string.sub
-local sreplace = string.gsub
-local tconcat = table.concat
 local select = select
+local strformat = string.format
+local strgsub = string.gsub
+local strlower = string.lower
+local strmatch = string.match
+local strsub = string.sub
+local tconcat = table.concat
+local tonumber = tonumber
+local tostring = tostring
+local type = type
 local wipe = wipe
-local tostring, tonumber = tostring, tonumber
 
-local UnitGUID, UnitName, UnitIsEnemy, UnitIsPlayer, UnitClass = UnitGUID, UnitName, UnitIsEnemy, UnitIsPlayer, UnitClass
-local GetPlayerInfoByGUID = GetPlayerInfoByGUID
-local GetTime = GetTime
-local GetSpellInfo = GetSpellInfo
-local GetSpellBaseCooldown = GetSpellBaseCooldown
-local GetCurrentMapAreaID = GetCurrentMapAreaID
-local RaidNotice_AddMessage, PlaySoundFile = RaidNotice_AddMessage, PlaySoundFile
-local SendChatMessage = SendChatMessage
-local IsAddonLoaded = IsAddonLoaded
 local CombatText_AddMessage = CombatText_AddMessage
+local GetBattlefieldScore = GetBattlefieldScore
+local GetCurrentMapAreaID = GetCurrentMapAreaID
+local GetNumBattlefieldScores = GetNumBattlefieldScores
+local GetPlayerInfoByGUID = GetPlayerInfoByGUID
+local GetSpellBaseCooldown = GetSpellBaseCooldown
+local GetSpellInfo = GetSpellInfo
+local GetTime = GetTime
+local IsAddonLoaded = IsAddonLoaded
+local IsAddOnLoaded = IsAddOnLoaded
+local IsInInstance = IsInInstance
 local IsRaidOfficer = IsRaidOfficer
-local IsInInstance, IsRatedBattleground = IsInInstance, IsRatedBattleground
-local GetNumBattlefieldScores, GetBattlefieldScore = GetNumBattlefieldScores, GetBattlefieldScore
+local IsRatedBattleground = IsRatedBattleground
+local PlaySoundFile = PlaySoundFile
+local RaidNotice_AddMessage = RaidNotice_AddMessage
+local SendChatMessage = SendChatMessage
+local UnitClass = UnitClass
+local UnitFactionGroup = UnitFactionGroup
+local UnitGUID = UnitGUID
+local UnitIsEnemy = UnitIsEnemy
+local UnitIsPlayer = UnitIsPlayer
+local UnitName = UnitName
 
 local MSBT = MikSBT
 local SCT = SCT
@@ -231,9 +243,9 @@ function addon:OnInitialize()
 	anchors["Group_cc"] = fb:NewGroup(300, L["Crowd Control"], "Group_cc")
 	anchors["Group_root"] = fb:NewGroup(300, L["Roots and Snares"], "Group_root")
 	anchors["Group_misc"] = fb:NewGroup(300, L["Miscellaneous Spells"], "Group_misc")
-	anchors["Group_custom1"] = fb:NewGroup(300, sformat("%s %d", L["Custom Anchor"], 1), "Group_custom1")
-	anchors["Group_custom2"] = fb:NewGroup(300, sformat("%s %d", L["Custom Anchor"], 2), "Group_custom2")
-	anchors["Group_custom3"] = fb:NewGroup(300, sformat("%s %d", L["Custom Anchor"], 3), "Group_custom3")
+	anchors["Group_custom1"] = fb:NewGroup(300, strformat("%s %d", L["Custom Anchor"], 1), "Group_custom1")
+	anchors["Group_custom2"] = fb:NewGroup(300, strformat("%s %d", L["Custom Anchor"], 2), "Group_custom2")
+	anchors["Group_custom3"] = fb:NewGroup(300, strformat("%s %d", L["Custom Anchor"], 3), "Group_custom3")
 
 	-- create spec icons
 	local icons = addon.AnchorIcons
@@ -256,7 +268,7 @@ function addon:OnInitialize()
 	-- cache spell names and icons
 	for k, v in pairs(addon.Spells) do
 		if type(v) == "table" then
-			local spellName = GetSpellInfo(k) or sformat("Spell #%d", k)
+			local spellName = GetSpellInfo(k) or strformat("Spell #%d", k)
 			if v.pet then
 				v.name = spellName.." (Pet)"
 			else
@@ -285,17 +297,17 @@ function addon:OnEnable()
 	for a in pairs(anchors) do
 		a = addon:GetAnchorKey(a)
 		for k, v in pairs(db.global.anchor_default) do
-			if db.profile.Anchors[a][k] == nil or db.profile.Anchors[a][k] == {} then
+			if db.profile.Anchors[a][k] == nil or db.profile.Anchors[a][k] == { } then
 				db.profile.Anchors[a][k] = addon:CopyTable(v)
 			end
 		end
 		for k, v in pairs(db.global.anchor_default.Bars) do
-			if db.profile.Anchors[a].Bars[k] == nil or db.profile.Anchors[a].Bars[k] == {} then
+			if db.profile.Anchors[a].Bars[k] == nil or db.profile.Anchors[a].Bars[k] == { } then
 				db.profile.Anchors[a].Bars[k] = addon:CopyTable(v)
 			end
 		end
 		for k, v in pairs(db.global.anchor_default.Position) do
-			if db.profile.Anchors[a].Position[k] == nil or db.profile.Anchors[a].Position[k] == {} then
+			if db.profile.Anchors[a].Position[k] == nil or db.profile.Anchors[a].Position[k] == { } then
 				db.profile.Anchors[a].Position[k] = addon:CopyTable(v)
 			end
 		end
@@ -393,7 +405,7 @@ function addon:UpdateGroupAnchors()
 	local anchors = addon.Anchors
 
 	for k, v in pairs(anchors) do
-		if smatch(k, "Group_") then
+		if strmatch(k, "Group_") then
 			addon:UpdateGroupAnchor(v)
 		end
 	end
@@ -401,19 +413,27 @@ end
 
 -- update a group anchor
 function addon:UpdateGroupAnchor(anchor)
-	local stype = ssub(anchor.name, 7)
-	local spells = addon.Groups[stype] or {}
+	local stype = strsub(anchor.name, 7)
+	local spells = addon.Groups[stype] or { }
 
 	for k, v in pairs(spells) do
-		local unit = ssub(k, 1, 18)
+		local unit = strsub(k, 1, 18)
 
 		local unitname = select (6, GetPlayerInfoByGUID(unit))
-		if not unitname or unitname == "" then unitname = "Pet" end
+		local palyername = UnitName("player")
+		-- ignore all cooldowns from the player on all the group anchors
+		if unitname == palyername then
+			return
+		end
+
+		if not unitname or unitname == "" then
+			unitname = "Pet"
+		end
 
 		local spec = 0
 		if addon.Units[unit] and addon.Units[unit].spec then spec = addon.Units[unit].spec end
 
-		local spellID = tonumber(ssub(k, 20))
+		local spellID = tonumber(strsub(k, 20))
 		local spell = addon:GetSpell(spellID)
 
 		if spell then
@@ -429,7 +449,7 @@ end
 -- updates anchor style settings
 function addon:UpdateAnchorStyle(anchorname)
 	local db = addon.DB.profile.Anchors
-	local anchors = {}
+	local anchors = { }
 
 	if anchorname == "Anchor_Arena" then
 		for i = 1, 5 do
@@ -505,7 +525,7 @@ function addon:UpdateAnchor(anchor, spells, GUID)
 	end
 
 	-- group anchors are updated elsewhere
-	if smatch(anchor.name, "Group_") then return end
+	if strmatch(anchor.name, "Group_") then return end
 
 	local unitID = addon.Const.Units[anchor.name]
 
@@ -618,8 +638,8 @@ function addon:SendAlert(event, srcGUID, dstGUID, spellID, isPet)
 		sound = false
 		RaidNotice_AddMessage(RaidWarningFrame, message, frame_rw)
 	-- MSBT(message [, scrollArea, isSticky, colorR, colorG, colorB, fontSize, fontName, outlineIndex, texturePath])
-	elseif ssub(target, 1, 5) == "MSBT_" and MSBT and not MSBT.IsModDisabled() then
-		local area = ssub(target, 6)
+	elseif strsub(target, 1, 5) == "MSBT_" and MSBT and not MSBT.IsModDisabled() then
+		local area = strsub(target, 6)
 		MSBT.DisplayMessage(message, area)
 	-- SCT:DisplayText (msg, color, isCrit, eventtype, frame, anitype, parent, icon)
 	elseif target == "SCT_Frame1" and SCT then
@@ -630,10 +650,10 @@ function addon:SendAlert(event, srcGUID, dstGUID, spellID, isPet)
 		SCT:DisplayText(message, nil, nil, nil, 3);
 	elseif target == "SCT_FrameMsg" and SCT then
 		-- msg, color, icon
-		SCT:DisplayMessage(message, {r=1,g=1,b=1}, nil)
+		SCT:DisplayMessage(message, {r = 1, g = 1, b = 1}, nil)
 	-- Parrot:ShowMessage (msg, frame, sticky, r, g, b, font, fontsize, outline, icon)
-	elseif ssub(target, 1, 7) == "Parrot_" and Parrot then
-		local area = ssub(target, 8)
+	elseif strsub(target, 1, 7) == "Parrot_" and Parrot then
+		local area = strsub(target, 8)
 		Parrot:ShowMessage(message, area, false);
 	-- builtin combattext (msg, scroll, r, g, b)
 	elseif target == "BlizzCT" and IsAddOnLoaded("Blizzard_CombatText") then
@@ -655,12 +675,12 @@ function addon:SendAlert(event, srcGUID, dstGUID, spellID, isPet)
 	elseif target == "bg" then
 		SendChatMessage(rawmessage, "BATTLEGROUND")
 	-- custom channels
-	elseif ssub(target, 1, 7) == "channel" then
-		local area = tonumber(ssub(target, 8))
+	elseif strsub(target, 1, 7) == "channel" then
+		local area = tonumber(strsub(target, 8))
 		SendChatMessage(rawmessage, "CHANNEL", nil, area)
 	-- chat frames
-	elseif ssub(target, 1, 4) == "chat" then
-		local area = ssub(target, 5)
+	elseif strsub(target, 1, 4) == "chat" then
+		local area = strsub(target, 5)
 		_G["ChatFrame"..area]:AddMessage(message)
 	-- if all else fails, output to default chat frame
 	else
@@ -677,7 +697,9 @@ end
 function addon:UpdateSpell(anchor, spellID, duration, maximum, unitname)
 	-- exit if anchor is disabled
 	local anchorname = addon:GetAnchorKey(anchor.name)
-	if addon:GetZoneSetting("Anchors", anchorname) == false then return end
+	if addon:GetZoneSetting("Anchors", anchorname) == false then
+		return
+	end
 
 	local spell = addon:GetSpell(spellID)
 	local spelltype = addon:GetSpellType(spellID)
@@ -685,8 +707,8 @@ function addon:UpdateSpell(anchor, spellID, duration, maximum, unitname)
 	local label
 	if unitname then
 		label = addon.DB.profile.Anchors[anchorname].LabelFormat
-		label = sreplace(label, "%%spell%%", spell.name)
-		label = sreplace(label, "%%player%%", unitname)
+		label = strgsub(label, "%%spell%%", spell.name)
+		label = strgsub(label, "%%player%%", unitname)
 	else
 		label = spell.name
 	end
@@ -735,7 +757,9 @@ end
 -- refresh target anchor when player target changes
 function addon:PLAYER_TARGET_CHANGED()
 	-- is anchor enabled?
-	if addon:GetZoneSetting("Anchors", "Anchor_Target") == false then return end
+	if addon:GetZoneSetting("Anchors", "Anchor_Target") == false then
+		return
+	end
 	-- is it a valid enemy player?
 	if UnitIsPlayer("target") and (addon.DB.profile.Debug or UnitIsEnemy("player", "target")) then
 		local GUID = UnitGUID("target")
@@ -751,7 +775,9 @@ end
 -- refresh focus anchor when player focus changes
 function addon:PLAYER_FOCUS_CHANGED()
 	-- is anchor enabled?
-	if addon:GetZoneSetting("Anchors", "Anchor_Focus") == false then return end
+	if addon:GetZoneSetting("Anchors", "Anchor_Focus") == false then
+		return
+	end
 	-- is it a valid enemy player?
 	if UnitIsPlayer("focus") and (addon.DB.profile.Debug or UnitIsEnemy("player", "focus")) then
 		local GUID = UnitGUID("focus")
@@ -767,7 +793,9 @@ end
 -- refresh arena anchors as opponent info updates
 function addon:ARENA_OPPONENT_UPDATE()
 	-- is anchor enabled?
-	if addon:GetZoneSetting("Anchors", "Anchor_Arena") == false then return end
+	if addon:GetZoneSetting("Anchors", "Anchor_Arena") == false then
+		return
+	end
 	for i = 1, 5 do
 		local unitID = "arena"..i
 		local anchor = "Anchor_Arena"..i
@@ -785,7 +813,7 @@ end
 
 -- get unit spec information from battleground score window
 function addon:UPDATE_BATTLEFIELD_SCORE()
-	local t = {}
+	local t = { }
 	for i = 1, GetNumBattlefieldScores() do
 		local name, _, _, _, _, faction, _, _, class, _, _, _, _, _, _, spec = GetBattlefieldScore(i)
 
@@ -801,20 +829,30 @@ end
 -- respond to combatlog events
 function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCaster, srcGUID, srcName, srcFlags, srcRaidFlags, dstGUID, dstName, dstFlags, dstRaidFlags, spellID, spellName, spellSchool, auraType)
 	-- check event subtype
-	if not eventtypes[eventType] then return end
+	if not eventtypes[eventType] then
+		return
+	end
 
 	-- combatlog fail checks
-	if not srcGUID or srcGUID == GUID_INVALID or spellName == "-1" or spellID == 0 then return end
+	if not srcGUID or srcGUID == GUID_INVALID or spellName == "-1" or spellID == 0 then
+		return
+	end
 
 	-- don't track the player's cooldowns
-	--if srcGUID == UnitGUID("player") then return end
+	--[[if srcGUID == UnitGUID("player") then
+		return
+	end]]
 
 	-- check if unit is player/pet
 	local isPet = addon:IsPlayerPet(srcFlags)
-	if isPet or not (addon.DB.profile.Debug or addon:IsHostile(srcFlags)) then return end
+	if not (srcGUID or GetPlayerInfoByGUID(srcGUID) or isPet) or not (addon.DB.profile.Debug or addon:IsHostile(srcFlags)) then
+		return
+	end
 
 	-- workaround for combatlog bug (2 exact same entries generated for 1 event)
-	if LastEventSource == srcGUID and LastEventSpell == spellName then return end
+	if LastEventSource == srcGUID and LastEventSpell == spellName then
+		return
+	end
 	LastEventSource = srcGUID
 	LastEventSpell = spellName
 
@@ -836,7 +874,9 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 	-- check if spell is in database
 	local spell = addon:GetSpell(spellID)
 	-- stop if not found or it has no cooldown
-	if not spell or not spell.cooldown or spell.cooldown < 1 then return end
+	if not spell or not spell.cooldown or spell.cooldown < 1 then
+		return
+	end
 
 	-- spec detection #2 (cd spells)
 	if not srcUnit.spec and not isPet and spell.spec then
@@ -854,10 +894,10 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 		srcUnit.spells[spellID] = t
 
 		-- add spell to group anchors
-		if not groups[stype] then groups[stype] = {} end
+		if not groups[stype] then groups[stype] = { } end
 		local id = tostring(srcGUID).."|"..tostring(spellID)
 		groups[stype][id] = t
-		if addon.Anchors["Group_"..stype] then
+		if addon.Anchors["Group_"..stype] and srcGUID ~= UnitGUID("player") then
 			addon:UpdateGroupAnchor(addon.Anchors["Group_"..stype])
 		end
 
@@ -878,7 +918,9 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 
 		local cd = addon:GetSpellCooldown(spellID, srcUnit.spec)
 		-- workaround for spells that have cooldowns, but it's removed on one spec, e.g. Word of Glory
-		if cd == 0 then return end
+		if cd == 0 then
+			return
+		end
 
 		-- update anchors if unit is currently targeted/focused/etc.
 		local source = srcGUID

@@ -11,5 +11,4 @@
 ## X-Curse-Project-ID: lib-st
 ## X-Curse-Repository-ID: wow/lib-st/mainline
 
-LibStub\LibStub.lua
 lib-st.xml

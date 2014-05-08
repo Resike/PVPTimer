@@ -1,21 +1,13 @@
 ## Interface: 50400
-## X-Curse-Packaged-Version: 2.5.8-release
-## X-Curse-Project-Name: PvPTimer
-## X-Curse-Project-ID: pvptimer
-## X-Curse-Repository-ID: wow/pvptimer/mainline
-
-## Title: PvPTimer |cFF00FF002.5.6-release
-## Version: 2.5.8-release
-## Notes: PvP timer and cooldown tracker
+## Title: PVPTimer |cFF99CC01rev |cFFFF00002.5.8
+## Version: 2.5.8
+## Notes: PVP timer and cooldown tracker.
 ## Author: Zardas and Resike
-
 ## Dependencies:
 ## OptionalDeps: Ace3, LibFancyBar-1.0, lib-st, LibBabble-TalentTree-3.0, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
 ## DefaultState: Enabled
-
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: Delayed
-
 ## SavedVariables: PTDB
 
 #@no-lib-strip@

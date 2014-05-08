@@ -171,22 +171,40 @@ end
 -- returns spec number from spec name
 function addon:GetSpecNum(class, spec)
 	local specs = addon.Const.Specs[class]
-	if specs[1].name == spec then return 1 end
-	if specs[2].name == spec then return 2 end
-	if specs[3].name == spec then return 3 end
+	if not specs then
+		return 0
+	end
+	if specs[1].name == spec then
+		return 1
+	end
+	if specs[2].name == spec then
+		return 2
+	end
+	if specs[3].name == spec then
+		return 3
+	end
+	if specs[4].name == spec then
+		return 4
+	end
 	return 0
 end
 
 -- returns spell data for the specified ID
 function addon:GetSpell(spellID)
-	if not spellID then return false end
+	if not spellID then
+		return false
+	end
 	local spell = addon.Spells[spellID]
 
 	-- is it in the database?
-	if not spell then return false end
+	if not spell then
+		return false
+	end
 	-- is it turned off?
 	local db = addon.DB.profile.Spells
-	if db[spellID] and db[spellID].enabled == false then return false end
+	if db[spellID] and db[spellID].enabled == false then
+		return false
+	end
 
 	-- get real data if it's a pointer
 	if type(spell) ~= "table" then
@@ -200,10 +218,14 @@ end
 function addon:GetSpellCooldown(spellID, spec)
 	local glyphed = addon:GetGlyphSettings(spellID, spec)
 	local spell = addon:GetSpell(spellID)
-	if not spell then return 0 end
+	if not spell then
+		return 0
+	end
 
 	local cd = spell.cooldown
-	if not cd or cd == 0 then return 0 end
+	if not cd or cd == 0 then
+		return 0
+	end
 
 	if spell.cooldown_g and glyphed then
 		cd = cd + spell.cooldown_g
@@ -258,7 +280,9 @@ function addon:GetZoneSetting(key, subkey)
 	local db = addon.DB.profile
 
 	-- is it enabled?
-	if db[key][subkey].Enabled == false then return false end
+	if db[key][subkey].Enabled == false then
+		return false
+	end
 
 	local zonetype = select(2, IsInInstance())
 	local rated = IsRatedBattleground()
@@ -337,15 +361,21 @@ end
 
 -- returns true if unit is hostile to player
 function addon:IsHostile(flags)
-	if not flags then return false end
+	if not flags then
+		return false
+	end
 	return (bitband(flags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE)
 end
 
 -- returns true if unit is player pet
 function addon:IsPlayerPet(flags)
-	if not flags then return false end
+	if not flags then
+		return false
+	end
 	-- is it controlled by a player?
-	if not bitband(flags, COMBATLOG_OBJECT_CONTROL_PLAYER) == COMBATLOG_OBJECT_CONTROL_PLAYER then return false end
+	if not bitband(flags, COMBATLOG_OBJECT_CONTROL_PLAYER) == COMBATLOG_OBJECT_CONTROL_PLAYER then
+		return false
+	end
 	-- is it a pet or guardian?
 	return bitband(flags, COMBATLOG_OBJECT_TYPE_PET) == COMBATLOG_OBJECT_TYPE_PET or bitband(flags, COMBATLOG_OBJECT_TYPE_GUARDIAN) == COMBATLOG_OBJECT_TYPE_GUARDIAN or false
 end
@@ -363,11 +393,15 @@ function addon:ParseMessage(msg, unitID, spellID, stripCodes, isPet)
 	%color_c%   Use the player's class color for the following text
 	%color_s%   Use the talent spec color for the following text
 ]]
-	if not msg or msg == "" then return "" end
+	if not msg or msg == "" then
+		return ""
+	end
 	-- parse color codes
 	msg = strgsub(msg, "||c", "|c")
 	msg = strgsub(msg, "||r", "|r")
-	if not unitID then return msg end
+	if not unitID then
+		return msg
+	end
 
 	local name, unit, spec
 	if isPet then
@@ -424,7 +458,9 @@ end
 
 -- convert a color to hex code for text strings
 function addon:RGBtoHex(color)
-	if not color or not color.r then return "FFFFFF" end
+	if not color or not color.r then
+		return "FFFFFF"
+	end
 	return ("%02x%02x%02x"):format(color.r * 255, color.g * 255, color.b * 255)
 end
 
@@ -432,13 +468,17 @@ end
 function addon:SplitUnitName(unitname)
 	local name, server = strmatch(unitname, "(.-)%-(.*)$")
 
-	if not name or not server then return unitname, nil	end
+	if not name or not server then
+		return unitname, nil
+	end
 	return name, server
 end
 
 -- returns name-server from name or GUID
 function addon:GetFullUnitName(unit)
-	if not unit then return "" end
+	if not unit then
+		return ""
+	end
 	local name, server
 	if strsub(unit, 1, 2) == "0x" then
 		name = select(6, GetPlayerInfoByGUID(unit))
@@ -446,7 +486,9 @@ function addon:GetFullUnitName(unit)
 	else
 		name, server = UnitName(unit)
 	end
-	if not server or server == "" then return name end
+	if not server or server == "" then
+		return name
+	end
 	return name.."-"..server
 end
 
@@ -459,7 +501,9 @@ function addon:CheckPets(unit)
 	local petID = UnitGUID(unit.."pet")
 	local petName = UnitName(unit.."pet")
 
-	if not ownerID or not petID then return end
+	if not ownerID or not petID then
+		return
+	end
 
 	local owner = addon:GetPlayer(ownerID)
 	local pet = addon:GetPet(petID, petName)

@@ -152,6 +152,8 @@ function addon:GetGlyphSettings(spellID, spec)
 			result = true
 		elseif db[spellID].glyph3 and spec == 3 then
 			result = true
+		elseif db[spellID].glyph4 and spec == 4 then
+			result = true
 		end
 	end
 	
@@ -241,7 +243,7 @@ function addon:GetSpellCooldown(spellID, spec)
 		cd = cd + spell.cooldown_s3
 	end
 	if spell.cooldown_s4 and spec == 4 then
-		cd = cd + spell.cooldown_s3
+		cd = cd + spell.cooldown_s4
 	end
 
 	return cd

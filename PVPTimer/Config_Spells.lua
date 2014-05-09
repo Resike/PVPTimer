@@ -305,8 +305,10 @@ local function TableEnter(rowFrame, cellFrame, data, cols, row, realrow, column,
 				line = line.."\n"..specs[class][1].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 1))
 			end
 			if spec == 0 or spec == 2 then
-				line = line.."\n"..specs[class][2].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 2)) end
-			if spec == 0 or spec == 3 then line = line.."\n"..specs[class][3].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 3))
+				line = line.."\n"..specs[class][2].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 2))
+			end
+			if spec == 0 or spec == 3 then
+				line = line.."\n"..specs[class][3].name..": "..addon:ConvertTime(addon:GetSpellCooldown(spell, 3))
 			end
 			if class == 'DRUID' then
 				if spec == 0 or spec == 4 then

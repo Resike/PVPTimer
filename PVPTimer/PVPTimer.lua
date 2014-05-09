@@ -749,7 +749,10 @@ end
 
 -- wipe and refresh the group anchors on loading screens
 function addon:PLAYER_ENTERING_WORLD()
-	--wipe(addon.Units)
+	local _, instanceType = IsInInstance()
+	if instanceType == "arena" then
+		wipe(addon.Units)
+	end
 	wipe(addon.Groups)
 	addon:RefreshAnchors()
 end

@@ -22,6 +22,20 @@ local spells = {
 		cooldown = 600,
 		type = 'defensive',
 	},
+	-- Swordguard Embroidery
+	[23035] = {
+		class = 'ITEM',
+		duration = 15,
+		cooldown = 45,
+		type = 'offensive',
+	},
+	-- Lightweave Embroidery
+	[125487] = {
+		class = 'ITEM',
+		duration = 15,
+		cooldown = 45,
+		type = 'offensive',
+	},
 	-- Phase Fingers
 	[108788] = {
 		class = 'ITEM',

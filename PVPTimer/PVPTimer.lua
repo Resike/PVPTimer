@@ -208,8 +208,6 @@ function addon:OnInitialize()
 	-- create db
 	addon.DB = LibStub("AceDB-3.0"):New("PTDB", addon.Defaults, true)
 	local db = addon.DB
-	
-	--db.profile.Debug = false
 
 	-- create options
 	ACR:RegisterOptionsTable("PvPTimer", addon.Options)
@@ -346,14 +344,6 @@ function addon:ChatCommand(input)
 	elseif input == "reset" then
 		-- reset data
 		addon:PLAYER_ENTERING_WORLD()
-	elseif input == "debug" then
-		-- debug mode
-		addon.DB.profile.Debug = not addon.DB.profile.Debug
-		if addon.DB.profile.Debug then
-			addon:Print("Debug Mode |CFF00FF00enabled|r. This makes the addon react to friendly players too. This option is not supported, and provided for testing purposes only!")
-		else
-			addon:Print("Debug Mode |CFFFF0000disabled|r.")
-		end
 	else
 		ACD:Open("PvPTimer", "Settings")
 		-- open blizzard config
@@ -412,7 +402,7 @@ function addon:UpdateGroupAnchors()
 end
 
 -- update a group anchor
-function addon:UpdateGroupAnchor(anchor)
+function addon:UpdateGroupAnchor(anchor, srcFlags)
 	local stype = strsub(anchor.name, 7)
 	local spells = addon.Groups[stype] or { }
 
@@ -420,9 +410,13 @@ function addon:UpdateGroupAnchor(anchor)
 		local unit = strsub(k, 1, 18)
 
 		local unitname = select (6, GetPlayerInfoByGUID(unit))
-		local palyername = UnitName("player")
+		local playername = UnitName("player")
 		-- ignore all cooldowns from the player on all the group anchors
-		if unitname == palyername then
+		if unitname == playername then
+			return
+		end
+
+		if not addon:IsHostile(srcFlags) then
 			return
 		end
 
@@ -764,7 +758,7 @@ function addon:PLAYER_TARGET_CHANGED()
 		return
 	end
 	-- is it a valid enemy player?
-	if UnitIsPlayer("target") and (addon.DB.profile.Debug or UnitIsEnemy("player", "target")) then
+	if UnitIsPlayer("target") then
 		local GUID = UnitGUID("target")
 		--local unit = addon:GetPlayer(GUID)
 		local spells = addon:GetUnitSpells(GUID)
@@ -782,7 +776,7 @@ function addon:PLAYER_FOCUS_CHANGED()
 		return
 	end
 	-- is it a valid enemy player?
-	if UnitIsPlayer("focus") and (addon.DB.profile.Debug or UnitIsEnemy("player", "focus")) then
+	if UnitIsPlayer("focus") then
 		local GUID = UnitGUID("focus")
 		--local unit = addon:GetPlayer(GUID)
 		local spells = addon:GetUnitSpells(GUID)
@@ -848,7 +842,7 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 
 	-- check if unit is player/pet
 	local isPet = addon:IsPlayerPet(srcFlags)
-	if not (srcGUID or GetPlayerInfoByGUID(srcGUID) or isPet) or not (addon.DB.profile.Debug or addon:IsHostile(srcFlags)) then
+	if not (srcGUID or GetPlayerInfoByGUID(srcGUID) or isPet) then
 		return
 	end
 
@@ -900,8 +894,8 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 		if not groups[stype] then groups[stype] = { } end
 		local id = tostring(srcGUID).."|"..tostring(spellID)
 		groups[stype][id] = t
-		if addon.Anchors["Group_"..stype] and srcGUID ~= UnitGUID("player") then
-			addon:UpdateGroupAnchor(addon.Anchors["Group_"..stype])
+		if addon.Anchors["Group_"..stype] and srcGUID ~= UnitGUID("player") and addon:IsHostile(srcFlags) then
+			addon:UpdateGroupAnchor(addon.Anchors["Group_"..stype], srcFlags)
 		end
 
 		-- handle cooldown resetting spells

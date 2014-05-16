@@ -760,7 +760,6 @@ function addon:PLAYER_TARGET_CHANGED()
 	-- is it a valid enemy player?
 	if UnitIsPlayer("target") then
 		local GUID = UnitGUID("target")
-		--local unit = addon:GetPlayer(GUID)
 		local spells = addon:GetUnitSpells(GUID)
 		addon:CheckPets("target")
 		addon:UpdateAnchor(addon.Anchors["Anchor_Target"], spells, GUID)
@@ -778,7 +777,6 @@ function addon:PLAYER_FOCUS_CHANGED()
 	-- is it a valid enemy player?
 	if UnitIsPlayer("focus") then
 		local GUID = UnitGUID("focus")
-		--local unit = addon:GetPlayer(GUID)
 		local spells = addon:GetUnitSpells(GUID)
 		addon:CheckPets("focus")
 		addon:UpdateAnchor(addon.Anchors["Anchor_Focus"], spells, GUID)
@@ -798,7 +796,6 @@ function addon:ARENA_OPPONENT_UPDATE()
 		local anchor = "Anchor_Arena"..i
 		if UnitIsPlayer(unitID) then
 			local GUID = UnitGUID(unitID)
-			--local unit = addon:GetPlayer(GUID)
 			local spells = addon:GetUnitSpells(GUID)
 			addon:CheckPets(unitID)
 			addon:UpdateAnchor(addon.Anchors[anchor], spells, GUID)

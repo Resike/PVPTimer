@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("PvPTimer", "deDE", true, debug)
+local L = LibStub("AceLocale-3.0"):NewLocale("PVPTimer", "deDE", true, debug)
 if not L then return end
 
 -- To help with missing translations please go here:
@@ -143,7 +143,7 @@ L["Position"] = "Position" -- Requires localization
 L["Position of the anchor."] = "Position of the anchor." -- Requires localization
 L["Position of the icon."] = "Position of the icon." -- Requires localization
 L["Position of the timer text."] = "Position of the timer text." -- Requires localization
-L["PvPTimer Spell Configuration"] = "PvPTimer Spell Configuration" -- Requires localization
+L["PVPTimer Spell Configuration"] = "PVPTimer Spell Configuration" -- Requires localization
 L["Racial"] = "Racial" -- Requires localization
 L["Raid chat"] = "Raid chat" -- Requires localization
 L["Raid Warning"] = "Raid Warning" -- Requires localization

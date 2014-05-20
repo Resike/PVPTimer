@@ -1,4 +1,4 @@
-local addon = PvPTimer
+local addon = PVPTimer
 
 local AceGUI = addon.Lib.AceGUI
 local L = addon.Locale
@@ -367,17 +367,17 @@ local function TableClick(rowFrame, cellFrame, data, cols, row, realrow, column,
 end
 
 local spellTableCols = {
-	{ name = "", width = 20, DoCellUpdate = ST_GetSpellIcon, },
-	{ name = L["Name"], width = 155, defaultsort = "dsc", sort = "dsc", DoCellUpdate = ST_GetSpellName},
-	{ name = L["Class"], width = 80, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetClass, },
-	{ name = L["Category"], width = 140, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetSpellCategory},
-	--{ name = L["Duration"], width = 60, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetTime, },
-	{ name = L["Cooldown"], width = 80, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetTime, },
-	{ name = L["Glyph"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
-	{ name = L["Spec 1"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
-	{ name = L["Spec 2"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
-	{ name = L["Spec 3"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
-	{ name = L["Spec 4"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
+	{name = "", width = 20, DoCellUpdate = ST_GetSpellIcon, },
+	{name = L["Name"], width = 155, defaultsort = "dsc", sort = "dsc", DoCellUpdate = ST_GetSpellName},
+	{name = L["Class"], width = 80, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetClass, },
+	{name = L["Category"], width = 140, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetSpellCategory},
+	--{name = L["Duration"], width = 60, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetTime, },
+	{name = L["Cooldown"], width = 80, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetTime, },
+	{name = L["Glyph"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
+	{name = L["Spec 1"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
+	{name = L["Spec 2"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
+	{name = L["Spec 3"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
+	{name = L["Spec 4"], width = 50, align = "CENTER", defaultsort = "asc", sortnext = COLUMN_NAME, DoCellUpdate = ST_GetGlyph},
 }
 local spellTableRows = 33
 local spellTableRowHeight = 16
@@ -389,7 +389,7 @@ function addon:CreateSpellConfig()
 	f:SetCallback("OnClose", function()
 		f:Hide()
 	end)
-	f:SetTitle(L["PvPTimer Spell Configuration"])
+	f:SetTitle(L["PVPTimer Spell Configuration"])
 	f:SetLayout("List")
 	f:SetWidth(955)
 	f:SetHeight(598)

@@ -1,4 +1,4 @@
-local addon = PvPTimer
+local addon = PVPTimer
 local L = addon.Locale
 
 local bitband = bit.band

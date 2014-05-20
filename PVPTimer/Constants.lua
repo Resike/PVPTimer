@@ -4,13 +4,13 @@ if not LibStub then
 	error("PvPTimer requires LibStub.")
 end
 
-PvPTimer = LibStub("AceAddon-3.0"):NewAddon("PvPTimer", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
-local addon = PvPTimer
+PVPTimer = LibStub("AceAddon-3.0"):NewAddon("PVPTimer", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
+local addon = PVPTimer
 if not addon then
-	error("PvPTimer requires Ace3.")
+	error("PVPTimer requires Ace3.")
 end
 
-addon.Locale = LibStub:GetLibrary("AceLocale-3.0"):GetLocale("PvPTimer")
+addon.Locale = LibStub:GetLibrary("AceLocale-3.0"):GetLocale("PVPTimer")
 local L = addon.Locale
 
 addon.Lib = { }
@@ -20,18 +20,18 @@ addon.Lib.AceGUI = LibStub("AceGUI-3.0")
 
 addon.Lib.CallbackHandler = LibStub("CallbackHandler-1.0")
 if not addon.Lib.CallbackHandler then
-	error("PvPTimer requires CallbackHandler-1.0.")
+	error("PVPTimer requires CallbackHandler-1.0.")
 end
 addon.Lib.CallbackHandler:New(addon)
 
 addon.Lib.Bars = LibStub("LibFancyBar-1.0")
 if not addon.Lib.Bars then
-	error("PvPTimer requires LibFancyBar-1.0.")
+	error("PVPTimer requires LibFancyBar-1.0.")
 end
 
 addon.Lib.Media = LibStub("LibSharedMedia-3.0")
 if not addon.Lib.Media then
-	error("PvPTimer requires LibSharedMedia-3.0.")
+	error("PVPTimer requires LibSharedMedia-3.0.")
 end
 
 addon.Lib.Media:Register("sound", "Raid Warning", [[Sound\Interface\RaidWarning.wav]])
@@ -414,7 +414,7 @@ addon.Defaults = {
 				Else_OnlyTarget = true,
 			},
 			spec = {
-				Enabled = true,
+				Enabled = false,
 				BG = "_none_",
 				Message = msg1..L["SPECCED"]..msg3,
 				BG_SoundEnable = false,
@@ -552,6 +552,15 @@ addon.Defaults = {
 				name = L["Miscellaneous Spells"],
 				desc = L["Anything else. Spells that don't really fit into other categories."],
 			},
+			spec = {
+				["a"] = 0.7,
+				["b"] = 0.7,
+				["g"] = 0.7,
+				["r"] = 0.7,
+				order = 7,
+				name = L["Specialization Detection"],
+				desc = L["Enemy specialization announcement."],
+			},
 			custom1 = {
 				["a"] = 0.7,
 				["b"] = 0.7,
@@ -626,7 +635,10 @@ local function BuildChannelTable(t, k, v, ...)
 	if k and v then
 		local isServer = false
 		for _, x in pairs({EnumerateServerChannels()}) do
-			if v == x then isServer = true; break end
+			if v == x then
+				isServer = true
+				break
+			end
 		end
 		if not isServer then t[k] = v end
 		return BuildChannelTable(t, ...)

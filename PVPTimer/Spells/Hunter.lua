@@ -1,4 +1,4 @@
-local addon = PvPTimer
+local addon = PVPTimer
 
 local spells = {
 	-- Bestial Wrath

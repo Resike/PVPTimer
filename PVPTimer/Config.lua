@@ -1,4 +1,4 @@
-local addon = PvPTimer
+local addon = PVPTimer
 local L = addon.Locale
 local LSM = addon.Lib.Media
 
@@ -13,7 +13,9 @@ local function getConfigValue(i)
 
 	for k = 2, #i do
 		if i[k] ~= "X_Settings" then
-			if not db then db = { } end
+			if not db then
+				db = { }
+			end
 			db = db[i[k]]
 		end
 	end
@@ -25,7 +27,9 @@ local function setConfigValue(i, v)
 	local db = addon.DB.profile
 	for k = 2, #i - 1 do
 		if i[k] ~= "X_Settings" then
-			if not db[i[k]] then db[i[k]] = { } end
+			if not db[i[k]] then
+				db[i[k]] = { }
+			end
 			db = db[i[k]]
 		end
 	end
@@ -390,7 +394,9 @@ local anchor = {
 				softMin = 8,
 				softMax = 64,
 				step = 1,
-				hidden = function(i) return not getIconModeEnabled(i) end,
+				hidden = function(i)
+					return not getIconModeEnabled(i)
+				end,
 			},
 			Color = {
 				order = 11,
@@ -762,8 +768,8 @@ for k, v in pairs(addon.DB.profile.SpellCategories) do
 				desc = L["Copies settings on this page to memory."],
 				type = "execute",
 				func = CopyAlertSettings,
-				hidden = function(i) return
-					i[3] == "spec"
+				hidden = function(i)
+					return i[3] == "spec"
 				end,
 			},
 			PasteSettings = {
@@ -772,8 +778,8 @@ for k, v in pairs(addon.DB.profile.SpellCategories) do
 				desc = L["Applies settings in memory."],
 				type = "execute",
 				func = PasteAlertSettings,
-				hidden = function(i) return
-					i[3] == "spec"
+				hidden = function(i)
+					return i[3] == "spec"
 				end,
 				disabled = function()
 					return addon.AlertCopy == false
@@ -949,203 +955,6 @@ for k, v in pairs(addon.DB.profile.SpellCategories) do
 	}
 end
 
---[[
-CategoryList_Alert["spec"] = {
-	name = L["Spec Detection"],
-	args = {
-		CautionHeader = {
-			order = 3,
-			name = L["Alert Messages"],
-			type = "header",
-		},
-		CautionText = {
-			order = 4,
-			name = L["Be careful when using these alerts, they can send out a lot of messages. People will likely yell at you or /ignore you if you spam alerts in a public channel."],
-			type = "description",
-			width = "full",
-			fontSize = "medium",
-		},
-		CopySettings = {
-			order = 5,
-			name = L["Copy Settings"],
-			desc = L["Copies settings on this page to memory."],
-			type = "execute",
-			func = CopyAlertSettings,
-			hidden = function(i) return (i[3] == "spec") end,
-		},
-		PasteSettings = {
-			order = 6,
-			name = L["Paste Settings"],
-			desc = L["Applies settings in memory."],
-			type = "execute",
-			func = PasteAlertSettings,
-			hidden = function(i) return (i[3] == "spec") end,
-			disabled = function()
-				return (addon.AlertCopy == false)
-			end,
-		},
-		Enabled = {
-			order = 11,
-			name = L["Enable alerts"],
-			desc = L["Enable or disable alerts regardless of other settings."],
-			type = "toggle",
-		},
-		Message = {
-			order = 12,
-			name = L["Message"],
-			desc = L["Customize the message displayed when the alert is triggered. You can use the following tags:"].."\n\n"..L["MESSAGE_TAGS"],
-			type = "input",
-			width = "full",
-			disabled = getAnchorEnabled,
-		},
-		BG_Text = {
-			order = 20,
-			name = L["Battlegrounds"],
-			type = "header",
-		},
-		BG = {
-			order = 21,
-			name = L["Alert Target"],
-			desc = L["Messages are sent to this window or addon. You may have to reload your interface (type /rl) to make any changes to other addons like MSBT visible."],
-			type = "select",
-			values = function() return addon:GetMessageFrames() end,
-			disabled = getAnchorEnabled,
-		},
-		BG_OnlyTarget = {
-			order = 22,
-			name = L["Only target/focus"],
-			desc = L["Only trigger alerts if source is the current target or focus."],
-			type = "toggle",
-			disabled = getAnchorEnabled,
-		},
-		BG_SoundEnable = {
-			order = 24,
-			name = L["Play Sound"],
-			desc = L["Plays a sound when the alert is triggered."],
-			type = "toggle",
-			disabled = getAnchorEnabled,
-		},
-		BG_Sound = {
-			order = 25,
-			name = L["Sound"],
-			desc = L["Select the sound you want played when the alert is triggered."],
-			type = "select",
-			dialogControl = 'LSM30_Sound',
-			values = AceGUIWidgetLSMlists.sound,
-			disabled = getAnchorEnabled,
-		},
-		RatedBG_Text = {
-			order = 30,
-			name = L["Rated Battlegrounds"],
-			type = "header",
-		},
-		RatedBG = {
-			order = 31,
-			name = L["Alert Target"],
-			desc = L["Messages are sent to this window or addon. You may have to reload your interface (type /rl) to make any changes to other addons like MSBT visible."],
-			type = "select",
-			values = function() return addon:GetMessageFrames() end,
-			disabled = getAnchorEnabled,
-		},
-		RatedBG_OnlyTarget = {
-			order = 32,
-			name = L["Only target/focus"],
-			desc = L["Only trigger alerts if source is the current target or focus."],
-			type = "toggle",
-			disabled = getAnchorEnabled,
-		},
-		RatedBG_SoundEnable = {
-			order = 34,
-			name = L["Play Sound"],
-			desc = L["Plays a sound when the alert is triggered."],
-			type = "toggle",
-			disabled = getAnchorEnabled,
-		},
-		RatedBG_Sound = {
-			order = 35,
-			name = L["Sound"],
-			desc = L["Select the sound you want played when the alert is triggered."],
-			type = "select",
-			dialogControl = 'LSM30_Sound',
-			values = AceGUIWidgetLSMlists.sound,
-			disabled = getAnchorEnabled,
-		},
-		Arena_Text = {
-			order = 40,
-			name = L["Arenas"],
-			type = "header",
-		},
-		Arena = {
-			order = 41,
-			name = L["Alert Target"],
-			desc = L["Messages are sent to this window or addon. You may have to reload your interface (type /rl) to make any changes to other addons like MSBT visible."],
-			type = "select",
-			values = function() return addon:GetMessageFrames() end,
-			disabled = getAnchorEnabled,
-		},
-		Arena_OnlyTarget = {
-			order = 42,
-			name = L["Only target/focus"],
-			desc = L["Only trigger alerts if source is the current target or focus."],
-			type = "toggle",
-			disabled = getAnchorEnabled,
-		},
-		Arena_SoundEnable = {
-			order = 44,
-			name = L["Play Sound"],
-			desc = L["Plays a sound when the alert is triggered."],
-			type = "toggle",
-			disabled = getAnchorEnabled,
-		},
-		Arena_Sound = {
-			order = 45,
-			name = L["Sound"],
-			desc = L["Select the sound you want played when the alert is triggered."],
-			type = "select",
-			dialogControl = 'LSM30_Sound',
-			values = AceGUIWidgetLSMlists.sound,
-			disabled = getAnchorEnabled,
-		},
-		Else_Text = {
-			order = 90,
-			name = L["Everywhere else"],
-			type = "header",
-		},
-		Else = {
-			order = 91,
-			name = L["Alert Target"],
-			desc = L["Messages are sent to this window or addon. You may have to reload your interface (type /rl) to make any changes to other addons like MSBT visible."],
-			type = "select",
-			values = function() return addon:GetMessageFrames() end,
-			disabled = getAnchorEnabled,
-		},
-		Else_OnlyTarget = {
-			order = 92,
-			name = L["Only target/focus"],
-			desc = L["Only trigger alerts if source is the current target or focus."],
-			type = "toggle",
-			disabled = getAnchorEnabled,
-		},
-		Else_SoundEnable = {
-			order = 94,
-			name = L["Play Sound"],
-			desc = L["Plays a sound when the alert is triggered."],
-			type = "toggle",
-			disabled = getAnchorEnabled,
-		},
-		Else_Sound = {
-			order = 95,
-			name = L["Sound"],
-			desc = L["Select the sound you want played when the alert is triggered."],
-			type = "select",
-			dialogControl = 'LSM30_Sound',
-			values = AceGUIWidgetLSMlists.sound,
-			disabled = getAnchorEnabled,
-		},
-	}
-}
-]]
-
 -- builds spell category list for anchor settings
 local CategoryList_Anchors = {
 	Anchor_Target = {
@@ -1175,20 +984,22 @@ local CategoryList_Anchors = {
 }
 
 for k, v in pairs(addon.DB.profile.SpellCategories) do
-	CategoryList_Anchors["Group_"..k] = {
-		order = 10 + v.order,
-		name = strformat("%s: %s", L["Group"], v.name),
-		desc = strformat("%s\n\n|CFF00FF00%s|r\n%s", L["Group anchors show all spells in a category, grouped together."], v.name, v.desc),
-		type = "group",
-		childGroups = "tab",
-		args = anchor,
-	}
+	if k ~= "spec" then
+		CategoryList_Anchors["Group_"..k] = {
+			order = 10 + v.order,
+			name = strformat("%s: %s", L["Group"], v.name),
+			desc = strformat("%s\n\n|CFF00FF00%s|r\n%s", L["Group anchors show all spells in a category, grouped together."], v.name, v.desc),
+			type = "group",
+			childGroups = "tab",
+			args = anchor,
+		}
+	end
 end
 
 --main option table
 addon.Options = {
 	type = "group",
-	name = "PvPTimer",
+	name = "PVPTimer",
 	get = getConfigValue,
 	set = setConfigValue,
 	args = {
@@ -1263,7 +1074,7 @@ f.frame:SetFrameStrata("LOW")
 f:SetCallback("OnClose", function()
 	addon.AnchorsLocked = true; addon:RefreshAnchors()
 end)
-f:SetTitle("PvPTimer Anchors Unlocked")
+f:SetTitle("PVPTimer Anchors Unlocked")
 f:SetLayout("Flow")
 f:SetWidth(500)
 f:SetHeight(90)

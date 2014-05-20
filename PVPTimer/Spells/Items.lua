@@ -1,4 +1,4 @@
-local addon = PvPTimer
+local addon = PVPTimer
 
 local spells = {
 	-- PvP Trinket
@@ -11,7 +11,7 @@ local spells = {
 	-- Healthstone
 	[6262] = {
 		class = 'ITEM',
-		cooldown = 60,
+		cooldown = 120,
 		type = 'defensive',
 	},
 	-- Battle Standard
@@ -23,7 +23,7 @@ local spells = {
 		type = 'defensive',
 	},
 	-- Swordguard Embroidery
-	[23035] = {
+	[125489] = {
 		class = 'ITEM',
 		duration = 15,
 		cooldown = 45,

@@ -1,3 +1,11 @@
+**2.5.9**
+* Fixed an issue with alerts beeing triggered by frienldy players.
+* Fixed an issue with spec detection beeing triggered by frienldy players.
+* Spec detection is now can be disabled properly, on the alerts tab.
+* From now spec detection is disabled by default.
+* Item updates.
+* Some other minor fixes.
+
 **2.5.8**
 * Added upvalues.
 * Removed any debug related functions, modules and saved variables.

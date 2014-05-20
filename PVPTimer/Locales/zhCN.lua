@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("PvPTimer", "zhCN", true, debug)
+local L = LibStub("AceLocale-3.0"):NewLocale("PVPTimer", "zhCN", true, debug)
 if not L then return end
 
 -- To help with missing translations please go here:
@@ -143,7 +143,7 @@ L["Position"] = "位置" -- Needs review
 L["Position of the anchor."] = "锚点的位置." -- Needs review
 L["Position of the icon."] = "图标的位置." -- Needs review
 L["Position of the timer text."] = "Position of the timer text." -- Requires localization
-L["PvPTimer Spell Configuration"] = "PvPTimer 法术配置" -- Needs review
+L["PVPTimer Spell Configuration"] = "PVPTimer 法术配置" -- Needs review
 L["Racial"] = "种族" -- Needs review
 L["Raid chat"] = "团队聊天" -- Needs review
 L["Raid Warning"] = "团队警报" -- Needs review

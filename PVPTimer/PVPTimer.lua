@@ -1,4 +1,4 @@
-local addon = PvPTimer
+local addon = PVPTimer
 
 local L = addon.Locale
 local fb = addon.Lib.Bars
@@ -210,12 +210,12 @@ function addon:OnInitialize()
 	local db = addon.DB
 
 	-- create options
-	ACR:RegisterOptionsTable("PvPTimer", addon.Options)
+	ACR:RegisterOptionsTable("PVPTimer", addon.Options)
 	-- add profiles
 	addon.Profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(db)
 	addon.Options.args.Settings.args.Profiles = addon.Profiles
 
-	addon.OptionsFrame = ACD:AddToBlizOptions("PvPTimer", "PvPTimer", nil, "Settings")
+	addon.OptionsFrame = ACD:AddToBlizOptions("PVPTimer", "PVPTimer", nil, "Settings")
 
 	db.RegisterCallback(addon, "OnProfileChanged", "OnEnable")
 	db.RegisterCallback(addon, "OnProfileCopied", "OnEnable")
@@ -257,7 +257,7 @@ function addon:OnInitialize()
 
 	for k, v in pairs(anchors) do
 		-- temporary hack for drag handles
-		v.FG_DragHandle:SetTexture("Interface\\Addons\\PvPTimer\\Textures\\draghandle")
+		v.FG_DragHandle:SetTexture("Interface\\Addons\\PVPTimer\\Textures\\draghandle")
 
 		v.RegisterCallback(v, "FancyBar_GroupResize", OnAnchorChange)
 		v.RegisterCallback(v, "FancyBar_GroupMove", OnAnchorChange)
@@ -345,7 +345,7 @@ function addon:ChatCommand(input)
 		-- reset data
 		addon:PLAYER_ENTERING_WORLD()
 	else
-		ACD:Open("PvPTimer", "Settings")
+		ACD:Open("PVPTimer", "Settings")
 		-- open blizzard config
 		--InterfaceOptionsFrame_OpenToCategory(addon.OptionsFrame)
 		-- workaround for options sometimes not opening: try again :)
@@ -477,7 +477,9 @@ function addon:UpdateAnchorStyle(anchorname)
 			v:SetVisibleBars(ab.MaxBars)
 			v:SetStartPoint(ab.StartPoint)
 			v:SetSpacing(ab.Spacing_H, ab.Spacing_V)
-			if ab.IconSize < 8 then ab.IconSize = 8 end
+			if ab.IconSize < 8 then
+				ab.IconSize = 8
+			end
 			if ab.IconMode then
 				v:SetIconMode(ab.IconSize, ab.TimePosition, ab.TimeOffsetX, ab.TimeOffsetY)
 			else
@@ -579,11 +581,15 @@ function addon:SendAlert(event, srcGUID, dstGUID, spellID, isPet)
 		local spell = addon:GetSpell(spellID)
 		local spelltype = addon:GetSpellType(spellID)
 		db = addon.DB.profile.Alert[spelltype]
-		if not db then db = addon.DB.profile.Alert['misc'] end
+		if not db then
+			db = addon.DB.profile.Alert['misc']
+		end
 	end
 
 	-- check if alerts are enabled for this spell type
-	if db.Enabled == false then return end
+	if db.Enabled == false then
+		return
+	end
 
 	local zonetype = select(2, IsInInstance())
 	local rated = IsRatedBattleground()
@@ -617,9 +623,13 @@ function addon:SendAlert(event, srcGUID, dstGUID, spellID, isPet)
 	end
 
 	-- no info or alert target is 'none'
-	if target == '_none_' then return end
+	if target == '_none_' then
+		return
+	end
 	-- if 'Only target/focus' is on, check if target/focus guid is same as source
-	if onlytarget and (UnitGUID("target") ~= srcGUID or UnitGUID("focus") ~= srcGUID) then return end
+	if onlytarget and (UnitGUID("target") ~= srcGUID or UnitGUID("focus") ~= srcGUID) then
+		return
+	end
 	
 	local message = addon:ParseMessage(db.Message, srcGUID, spellID, false, isPet)
 	local rawmessage = addon:ParseMessage(db.Message, srcGUID, spellID, true, isPet)
@@ -861,7 +871,9 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 	-- spec detection #1 (spammable spells)
 	if not srcUnit.spec and not isPet and addon.SpecSpells[spellID] then
 		srcUnit.spec = addon.SpecSpells[spellID]
-		addon:SendAlert("spec", srcGUID)
+		if addon:IsHostile(srcFlags) then
+			addon:SendAlert("spec", srcGUID)
+		end
 		addon:RefreshAnchors(true)
 	end
 
@@ -875,7 +887,9 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 	-- spec detection #2 (cd spells)
 	if not srcUnit.spec and not isPet and spell.spec then
 		srcUnit.spec = spell.spec
-		addon:SendAlert("spec", srcGUID)
+		if addon:IsHostile(srcFlags) then
+			addon:SendAlert("spec", srcGUID)
+		end
 		addon:RefreshAnchors(true)
 	end
 	
@@ -939,9 +953,13 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 		-- send alert about spell used
 		if isPet and srcUnit.owner then
 			-- if pet has an owner then use owner's id
-			addon:SendAlert("used", srcUnit.owner, dstGUID, spellID, false)
+			if addon:IsHostile(srcFlags) then
+				addon:SendAlert("used", srcUnit.owner, dstGUID, spellID, false)
+			end
 		else
-			addon:SendAlert("used", srcGUID, dstGUID, spellID, isPet)
+			if addon:IsHostile(srcFlags) then
+				addon:SendAlert("used", srcGUID, dstGUID, spellID, isPet)
+			end
 		end
 	end
 end

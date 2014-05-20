@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("PvPTimer", "enUS", true, debug)
+local L = LibStub("AceLocale-3.0"):NewLocale("PVPTimer", "enUS", true, debug)
 if not L then return end
 
 -- To help with missing translations please go here:
@@ -91,6 +91,8 @@ L["Roots and Snares"] = true
 L["Spells that restrict or prevent movement, e.g. Frost Nova or Hamstring."] = true
 L["Miscellaneous Spells"] = true
 L["Anything else. Spells that don't really fit into other categories."] = true
+L["Specialization Detection"] = true
+L["Enemy specialization announcement."] = true
 L["Spell Configuration"] = true
 L["Opens the Spell Configuration window, where you can disable and adjust spells."] = true
 L["Target"] = true
@@ -121,7 +123,7 @@ L["Click here to enable/disable this racial."] = true
 L["Base cooldown: "] = true
 L["Glyph modifier: "] = true
 L["Unknown Spec"] = true
-L["PvPTimer Spell Configuration"] = true
+L["PVPTimer Spell Configuration"] = true
 
 --new in 2.0
 L["Lock anchors"] = true

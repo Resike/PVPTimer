@@ -23,6 +23,27 @@ local spells = {
 		cooldown = 180,
 		type = 'defensive',
 	},
+	-- Void Shift
+	[108968] = {
+		class = 'PRIEST',
+		spec = 1,
+		cooldown = 300,
+		type = 'defensive',
+	},
+	-- Void Shift
+	[108968] = {
+		class = 'PRIEST',
+		spec = 2,
+		cooldown = 300,
+		type = 'defensive',
+	},
+	-- Void Shift
+	[108968] = {
+		class = 'PRIEST',
+		spec = 3,
+		cooldown = 600,
+		type = 'defensive',
+	},
 	-- Pain Suppression
 	[33206] = {
 		class = 'PRIEST',

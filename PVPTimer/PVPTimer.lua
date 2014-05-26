@@ -51,7 +51,6 @@ local GetTime = GetTime
 local IsAddonLoaded = IsAddonLoaded
 local IsAddOnLoaded = IsAddOnLoaded
 local IsInInstance = IsInInstance
-local IsRaidOfficer = IsRaidOfficer
 local IsRatedBattleground = IsRatedBattleground
 local PlaySoundFile = PlaySoundFile
 local RaidNotice_AddMessage = RaidNotice_AddMessage
@@ -60,6 +59,7 @@ local UnitClass = UnitClass
 local UnitFactionGroup = UnitFactionGroup
 local UnitGUID = UnitGUID
 local UnitIsEnemy = UnitIsEnemy
+local UnitIsGroupLeader = UnitIsGroupLeader
 local UnitIsPlayer = UnitIsPlayer
 local UnitName = UnitName
 
@@ -670,7 +670,7 @@ function addon:SendAlert(event, srcGUID, dstGUID, spellID, isPet)
 		SendChatMessage(rawmessage, "RAID")
 	-- Raid Warning
 	elseif target == "rw" then
-		if IsRaidOfficer() then
+		if UnitIsGroupLeader("player") then
 			SendChatMessage(rawmessage, "RAID_WARNING")
 		else
 			SendChatMessage(rawmessage, "RAID")

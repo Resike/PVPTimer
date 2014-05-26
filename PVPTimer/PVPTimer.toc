@@ -1,6 +1,6 @@
 ## Interface: 50400
-## Title: PVPTimer |cFF99CC01rev |cFFFF00002.5.9
-## Version: 2.5.9
+## Title: PVPTimer |cFF99CC01rev|r |cFFFF00002.6.0|r
+## Version: 2.6.0
 ## Notes: PVP timer and cooldown tracker.
 ## Author: Zardas and Resike
 ## Dependencies:

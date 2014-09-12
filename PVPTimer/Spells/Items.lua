@@ -91,6 +91,8 @@ local spells = {
 		cooldown = 180,
 		type = 'misc',
 	},
+	-- Nitro Boosts (Rocket Fuel Leak)
+	[94794] = 54861,
 	-- Rocket Boots Xtreme, Rocket Boots Xtreme Lite
 	[30452] = {
 		class = 'ITEM',

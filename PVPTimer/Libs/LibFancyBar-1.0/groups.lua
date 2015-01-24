@@ -67,9 +67,7 @@ local sortfield = {
 }
 
 local testicons = {
-	49028, 49206, 47528, 77606, 91802, 49184, 5217, 5211, 29166, 18562, 48438, 5384, 82945,
-	19236, 89485, 88685, 586, 88684, 6229, 6789, 6360, 17877, 2565, 6544, 5246, 498, 96231,
-	20066, 20925
+	49028, 49206, 47528, 77606, 91802, 49184, 5217, 5211, 18562, 48438, 5384, 19236, 88685, 586, 88684, 6789, 6360, 17877, 2565, 6544, 5246, 498, 96231, 20066, 20925
 }
 
 -- Create a dummy frame to store inherited functions.
@@ -397,20 +395,24 @@ function groupPrototype:RunTest(number, icons)
 	for i=1, number do
 		local bar = lib:NewBar(self, 200, 16)
 		local spell = icons[mrand(1, #icons)]
-		local name = "[Test] "..GetSpellInfo(spell)
-		local icon = select(3, GetSpellInfo(spell))
+		if spell and GetSpellInfo(spell) then
+			local name = "[Test] "..GetSpellInfo(spell)
+			local icon = select(3, GetSpellInfo(spell))
 
-		bar:SetLabel(name)
-		bar:SetData("icon", icon)
-		bar:SetData("name", name)
-		bar:SetData("__test", true)
-		bar:SetIcon()
-		bar:SetDuration(mrand(1, 30), 30)
-		bar:SetFlash(8, 1, 1)
-		bar:SetGhost(3, nil, "|cFF00FF00Ready", {0.1, 0.1, 0.8, 0.8})
-		bar:SetFadeout(1)
-		bar:SetSpark(true)
-		bar:Start()
+			if name and icon then
+				bar:SetLabel(name)
+				bar:SetData("icon", icon)
+				bar:SetData("name", name)
+				bar:SetData("__test", true)
+				bar:SetIcon()
+				bar:SetDuration(mrand(1, 30), 30)
+				bar:SetFlash(8, 1, 1)
+				bar:SetGhost(3, nil, "|cFF00FF00Ready", {0.1, 0.1, 0.8, 0.8})
+				bar:SetFadeout(1)
+				bar:SetSpark(true)
+				bar:Start()
+			end
+		end
 	end
 	self:Rearrange()
 	self.callbacks:Fire("FancyBar_GroupTestStart", self)

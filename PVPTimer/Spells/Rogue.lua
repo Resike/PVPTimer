@@ -47,6 +47,7 @@ local spells = {
 		duration = 15,
 		duration_g = 5,
 		cooldown = 180,
+		cooldown_s2 = -60,
 		type = 'defensive',
 	},
 	-- Combat Readiness
@@ -62,6 +63,7 @@ local spells = {
 		duration = 3,
 		duration_g = 2,
 		cooldown = 180,
+		cooldown_s2 = -60,
 		type = 'defensive',
 	},
 	-- Cloak of Shadows
@@ -69,6 +71,7 @@ local spells = {
 		class = 'ROGUE',
 		duration = 5,
 		cooldown = 120,
+		cooldown_s2 = -60,
 		type = 'defensive',
 	},
 	-- Kick
@@ -115,6 +118,7 @@ local spells = {
 		class = 'ROGUE',
 		duration = 8,
 		cooldown = 180,
+		cooldown_s2 = -60,
 		type = 'cc',
 	},
 	-- Dismantle

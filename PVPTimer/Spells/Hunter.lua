@@ -30,12 +30,12 @@ local spells = {
 		type = 'misc',
 	},
 	-- Scatter Shot
-	[19503] = {
+	--[[[19503] = {
 		class = 'HUNTER',
 		duration = 4,
 		cooldown = 30,
 		type = 'cc',
-	},
+	},]]
 	-- Feign Death
 	[5384] = {
 		class = 'HUNTER',
@@ -66,11 +66,11 @@ local spells = {
 		type = 'defensive',
 	},
 	-- Silencing Shot
-	[34490] = {
+	--[[[34490] = {
 		class = 'HUNTER',
 		cooldown = 20,
 		type = 'interrupt',
-	},
+	},]]
 	-- Flare
 	[1543] = {
 		class = 'HUNTER',
@@ -164,6 +164,23 @@ local spells = {
 	
 	-- PET SKILLS
 
+	-- Ancient Hysteria
+	[90355] = {
+		class = 'HUNTER',
+		--spec = 1, -- pet is exotic
+		duration = 40,
+		cooldown = 360,
+		type = 'offensive',
+		pet = true,
+	},
+	-- Bullheaded
+	[53490] = {
+		class = 'HUNTER',
+		duration = 12,
+		cooldown = 180,
+		type = 'defensive',
+		pet = true,
+	},
 	-- Intimidation
 	[19577] = {
 		class = 'HUNTER',
@@ -180,16 +197,8 @@ local spells = {
 		type = 'defensive',
 		pet = true,
 	},
-	-- Bullheaded
-	[53490] = {
-		class = 'HUNTER',
-		duration = 12,
-		cooldown = 180,
-		type = 'defensive',
-		pet = true,
-	},
 	-- Roar of Recovery
-	[53517] = {
+	--[[[53517] = {
 		class = 'HUNTER',
 		duration = 9,
 		cooldown = 180,
@@ -239,7 +248,7 @@ local spells = {
 	-- Horn Toss (Rhino)
 	[93434] = {
 		class = 'HUNTER',
---		spec = 1, -- pet is exotic
+		--spec = 1, -- pet is exotic
 		cooldown = 90,
 		type = 'misc',
 		pet = true,
@@ -256,15 +265,6 @@ local spells = {
 		class = 'HUNTER',
 		cooldown = 60,
 		type = 'interrupt',
-		pet = true,
-	},
-	-- Ancient Hysteria
-	[90355] = {
-		class = 'HUNTER',
---		spec = 1, -- pet is exotic
-		duration = 40,
-		cooldown = 360,
-		type = 'offensive',
 		pet = true,
 	},
 	-- Clench (Scorpid)
@@ -308,12 +308,12 @@ local spells = {
 	-- Web Wrap (Shale Spider)
 	[96201] = {
 		class = 'HUNTER',
---		spec = 1, -- pet is exotic
+		--spec = 1, -- pet is exotic
 		duration = 3,
 		cooldown = 45,
 		type = 'cc',
 		pet = true,
-	},
+	},]]
 }
 
 local spec = {

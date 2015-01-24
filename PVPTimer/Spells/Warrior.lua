@@ -9,19 +9,19 @@ local spells = {
 		type = 'offensive',
 	},
 	-- Skull Banner
-	[114207] = {
+	--[[[114207] = {
 		class = 'WARRIOR',
 		duration = 10,
 		cooldown = 180,
 		type = 'offensive',
-	},
+	},]]
 	-- Demoralizing Banner
-	[114203] = {
+	--[[[114203] = {
 		class = 'WARRIOR',
 		duration = 15,
 		cooldown = 180,
 		type = 'defensive',
-	},
+	},]]
 	-- Mocking Banner
 	[114192] = {
 		class = 'WARRIOR',
@@ -144,11 +144,11 @@ local spells = {
 		type = 'misc',
 	},
 	-- Disarm
-	[676] = {
+	--[[[676] = {
 		class = 'WARRIOR',
 		cooldown = 60,
 		type = 'misc',
-	},
+	},]]
 	-- Shockwave
 	[46968] = {
 		class = 'WARRIOR',

@@ -99,7 +99,7 @@ local spells = {
 			1856, -- Vanish
 			31224, -- Cloak of Shadows
 			5277, -- Evasion
-			51722, -- Dismantle
+			--51722, -- Dismantle
 		},
 		type = 'misc',
 	},
@@ -118,11 +118,11 @@ local spells = {
 		type = 'cc',
 	},
 	-- Dismantle
-	[51722] = {
+	--[[[51722] = {
 		class = 'ROGUE',
 		cooldown = 60,
 		type = 'misc',
-	},
+	},]]
 	-- Kidney Shot
 	[408] = {
 		class = 'ROGUE',
@@ -130,11 +130,11 @@ local spells = {
 		type = 'cc',
 	},
 	-- Redirect
-	[73981] = {
+	--[[[73981] = {
 		class = 'ROGUE',
 		cooldown = 60,
 		type = 'offensive',
-	},
+	},]]
 	-- Smoke Bomb
 	[76577] = {
 		class = 'ROGUE',
@@ -157,12 +157,12 @@ local spells = {
 		type = 'misc',
 	},
 	-- Shadow Blades
-	[121471] = {
+	--[[[121471] = {
 		class = 'ROGUE',
 		duration = 12,
 		cooldown = 180,
 		type = 'offensive',
-	},
+	},]]
 }
 
 local spec = {

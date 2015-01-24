@@ -24,7 +24,7 @@ local spells = {
 		type = 'defensive',
 	},
 	-- Void Shift
-	[108968] = {
+	--[[[108968] = {
 		class = 'PRIEST',
 		spec = 1,
 		cooldown = 300,
@@ -43,7 +43,7 @@ local spells = {
 		spec = 3,
 		cooldown = 600,
 		type = 'defensive',
-	},
+	},]]
 	-- Pain Suppression
 	[33206] = {
 		class = 'PRIEST',
@@ -76,13 +76,13 @@ local spells = {
 		type = 'defensive',
 	},
 	-- Inner Focus
-	[89485] = {
+	--[[[89485] = {
 		class = 'PRIEST',
 		spec = 1,
 		duration = 5,
 		cooldown = 45,
 		type = 'defensive',
-	},
+	},]]
 	-- Power Word: Barrier
 	[62618] = {
 		class = 'PRIEST',
@@ -109,12 +109,12 @@ local spells = {
 		type = 'cc',
 	},
 	-- Hymn of Hope
-	[64901] = {
+	--[[[64901] = {
 		class = 'PRIEST',
 		duration = 8,
 		cooldown = 360,
 		type = 'defensive',
-	},
+	},]]
 	-- Divine Hymn
 	[64843] = {
 		class = 'PRIEST',
@@ -195,12 +195,12 @@ local spells = {
 		type = 'cc',
 	},
 	-- Psyfiend
-	[108921] = {
+	--[[[108921] = {
 		class = 'PRIEST',
 		duration = 8, --??
 		cooldown = 45,
 		type = 'cc',
-	},
+	},]]
 	-- Mass Dispel
 	[32375] = {
 		class = 'PRIEST',

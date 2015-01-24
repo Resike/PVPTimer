@@ -23,12 +23,12 @@ local spells = {
 		type = 'defensive',
 	},
 	-- Swordguard Embroidery
-	[125489] = {
+	--[[[125489] = {
 		class = 'ITEM',
 		duration = 15,
 		cooldown = 45,
 		type = 'offensive',
-	},
+	},]]
 	-- Lightweave Embroidery
 	[125487] = {
 		class = 'ITEM',
@@ -37,12 +37,12 @@ local spells = {
 		type = 'offensive',
 	},
 	-- Phase Fingers
-	[108788] = {
+	--[[[108788] = {
 		class = 'ITEM',
 		duration = 10,
 		cooldown = 60,
 		type = 'defensive',
-	},
+	},]]
 	-- Grounded Plasma Shield
 	[82626] = {
 		class = 'ITEM',
@@ -57,19 +57,19 @@ local spells = {
 		type = 'defensive',
 	},
 	-- Quickflip Deflection Plates
-	[82176] = {
+	--[[[82176] = {
 		class = 'ITEM',
 		duration = 12,
 		cooldown = 60,
 		type = 'defensive',
-	},
+	},]]
 	-- Retincualted Armor Webbing
-	[82387] = {
+	--[[[82387] = {
 		class = 'ITEM',
 		duration = 14,
 		cooldown = 60,
 		type = 'defensive',
-	},
+	},]]
 	-- Goblin Glinder
 	[126389] = {
 		class = 'ITEM',
@@ -88,7 +88,7 @@ local spells = {
 	[54861] = {
 		class = 'ITEM',
 		duration = 5,
-		cooldown = 180,
+		cooldown = 120,
 		type = 'misc',
 	},
 	-- Nitro Boosts (Rocket Fuel Leak)
@@ -150,38 +150,38 @@ local spells = {
 		type = 'cc',
 	},
 	-- Synapse Springs
-	[96229] = {
+	--[[[96229] = {
 		class = 'ITEM',
 		duration = 10,
 		cooldown = 60,
 		type = 'offensive',
-	},
+	},]]
 	-- Tazzik Shocker
-	[82179] = {
+	--[[[82179] = {
 		class = 'ITEM',
 		cooldown = 120,
 		type = 'offensive',
-	},
+	},]]
 	-- Hand-Mounted Pyro Rocket
-	[54757] = {
+	--[[[54757] = {
 		class = 'ITEM',
 		cooldown = 45,
 		type = 'offensive',
-	},
+	},]]
 	-- Hyperspeed Accelators
-	[54758] = {
+	--[[[54758] = {
 		class = 'ITEM',
 		duration = 12,
 		cooldown = 60,
 		type = 'offensive',
-	},
+	},]]
 	-- Incendiary Fireworks Launcher
-	[109076] = {
+	--[[[109076] = {
 		class = 'ITEM',
 		duration = 3,
 		cooldown = 45,
 		type = 'offensive',
-	},
+	},]]
 }
 
 local hs = addon.Spells

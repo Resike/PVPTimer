@@ -80,12 +80,12 @@ local spells = {
 		type = 'interrupt',
 	},
 	-- Divine Plea
-	[54428] = {
+	--[[[54428] = {
 		class = 'PALADIN',
 		duration = 9,
 		cooldown = 120,
 		type = 'misc',
-	},
+	},]]
 	-- Hammer of Justice
 	[853] = {
 		class = 'PALADIN',
@@ -115,7 +115,7 @@ local spells = {
 		type = 'misc',
 	},
 	-- Guardian of Ancient Kings -- Holy
-	[86669] = {
+	--[[[86669] = {
 		class = 'PALADIN',
 		duration = 30,
 		cooldown = 300,
@@ -134,7 +134,7 @@ local spells = {
 		duration = 30,
 		cooldown = 180,
 		type = 'defensive',
-	},
+	},]]
 	-- Hand of Purity
 	[114039] = {
 		class = 'PALADIN',

@@ -53,13 +53,13 @@ local spells = {
 		type = 'offensive',
 	},
 	-- Unholy Frenzy
-	[49016] = {
+	--[[[49016] = {
 		class = 'DEATHKNIGHT',
 		spec = 3,
 		duration = 30,
 		cooldown = 180,
 		type = 'offensive',
-	},
+	},]]
 	-- Death's Advance
 	[96268] = {
 		class = 'DEATHKNIGHT',

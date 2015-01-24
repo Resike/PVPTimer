@@ -321,7 +321,7 @@ function addon:OnEnable()
 	addon:RefreshAnchors()
 
 	-- all done
-	addon:Print(L["Addon loaded."])
+	--addon:Print(L["Addon loaded."])
 end
 
 function addon:ChatCommand(input)

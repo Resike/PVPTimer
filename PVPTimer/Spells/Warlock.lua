@@ -25,11 +25,11 @@ local spells = {
 		type = 'offensive',
 	},
 	-- Twilight Ward
-	[6229] = {
+	--[[[6229] = {
 		class = 'WARLOCK',
 		cooldown = 30,
 		type = 'defensive',
-	},
+	},]]
 	-- Shadowfury
 	[30283] = {
 		class = 'WARLOCK',
@@ -45,13 +45,13 @@ local spells = {
 		type = 'cc',
 	},
 	-- Demonic Rebirth
-	[88448] = 108559, -- To be safe
-	[108559] = {
+	--[88448] = 108559, -- To be safe
+	--[[[108559] = {
 		class = 'WARLOCK',
 		spec = 2,
 		duration = 20,
 		cooldown = 120,
-	},
+	},]]
 	-- Mortal Coil
 	[6789] = {
 		class = 'WARLOCK',

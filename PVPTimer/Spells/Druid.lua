@@ -93,19 +93,19 @@ local spells = {
 		type = 'interrupt',
 	},
 	-- Nature's Grasp
-	[16689] = {
+	--[[[16689] = {
 		class = 'DRUID',
 		duration = 45,
 		cooldown = 60,
 		type = 'defensive',
-	},
+	},]]
 	-- Innervate
-	[29166] = {
+	--[[[29166] = {
 		class = 'DRUID',
 		duration = 10,
 		cooldown = 180,
 		type = 'misc',
-	},
+	},]]
 	-- Typhoon
 	[132469] = {
 		class = 'DRUID',
@@ -160,16 +160,16 @@ local spells = {
 	[102342] = {
 		class = 'DRUID',
 		duration = 12,
-		cooldown = 120,
+		cooldown = 60,
 		type = 'defensive',
 	},
 	-- Might of Ursoc
-	[106922] = {
+	--[[[106922] = {
 		class = 'DRUID',
 		duration = 20,
 		cooldown = 180,
 		type = 'defensive',
-	},
+	},]]
 	-- Celestial Alignment
 	[112071] = {
 		class = 'DRUID',
@@ -201,13 +201,13 @@ local spells = {
 		type = 'cc',
 	},
 	-- Bear Hug
-	[102795] = {
+	--[[[102795] = {
 		class = 'DRUID',
 		spec = 4,
 		duration = 3,
 		cooldown = 60,
 		type = 'cc',
-	},
+	},]]
 }
 
 local spec = {

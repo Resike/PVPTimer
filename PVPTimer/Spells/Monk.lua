@@ -23,10 +23,10 @@ local spells = {
 		type = 'cc',
 	},
 	-- Grapple Weapon
-	[117368] = {
+	--[[[117368] = {
 		class = 'MONK',
 		type = 'misc',
-	},
+	},]]
 	-- Zen Meditation
 	[115176] = {
 		class = 'MONK',
@@ -38,17 +38,17 @@ local spells = {
 		type = 'misc',
 	},
 	-- Avert Harm
-	[115213] = {
+	--[[[115213] = {
 		class = 'MONK',
 		spec = 1,
 		type = 'defensive',
-	},
+	},]]
 	-- Clash
-	[122057] = {
+	--[[[122057] = {
 		class = 'MONK',
 		spec = 1,
 		type = 'cc',
-	},
+	},]]
 	-- Energizing Brew
 	[115288] = {
 		class = 'MONK',

@@ -99,13 +99,13 @@ local spells = {
 		type = 'offensive',
 	},
 	-- Mana Tide Totem
-	[16190] = {
+	--[[[16190] = {
 		class = 'SHAMAN',
 		spec = 3,
 		duration = 16,
 		cooldown = 180,
 		type = 'misc',
-	},
+	},]]
 	-- Tremor Totem
 	[8143] = {
 		class = 'SHAMAN',
@@ -121,12 +121,12 @@ local spells = {
 		cooldown_g = 35,
 	},
 	-- Stormlash Totem
-	[120668] = {
+	--[[[120668] = {
 		class = 'SHAMAN',
 		duration = 10,
 		cooldown = 300,
 		type = 'offensive',
-	},
+	},]]
 	-- Spirit Walk
 	[58875] = {
 		class = 'SHAMAN',

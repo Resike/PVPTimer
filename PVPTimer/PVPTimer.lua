@@ -407,9 +407,10 @@ function addon:UpdateGroupAnchor(anchor, srcFlags)
 	local spells = addon.Groups[stype] or { }
 
 	for k, v in pairs(spells) do
-		local unit = strsub(k, 1, 18)
+		local number = string.find(k, "|")
+		local unit = strsub(k, 1, number - 1)
 
-		local unitname = select (6, GetPlayerInfoByGUID(unit))
+		local unitname = select(6, GetPlayerInfoByGUID(unit))
 		local playername = UnitName("player")
 		-- ignore all cooldowns from the player on all the group anchors
 		if unitname == playername then
@@ -427,7 +428,7 @@ function addon:UpdateGroupAnchor(anchor, srcFlags)
 		local spec = 0
 		if addon.Units[unit] and addon.Units[unit].spec then spec = addon.Units[unit].spec end
 
-		local spellID = tonumber(strsub(k, 20))
+		local spellID = tonumber(strsub(k, number + 1))
 		local spell = addon:GetSpell(spellID)
 
 		if spell then

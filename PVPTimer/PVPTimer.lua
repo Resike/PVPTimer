@@ -905,7 +905,6 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 
 		-- add spell to group anchors
 		if addon:IsHostile(srcFlags) then
-			print(srcName)
 			if not groups[stype] then
 				groups[stype] = { }
 			end

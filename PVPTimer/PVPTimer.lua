@@ -904,11 +904,16 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 		srcUnit.spells[spellID] = t
 
 		-- add spell to group anchors
-		if not groups[stype] then groups[stype] = { } end
-		local id = tostring(srcGUID).."|"..tostring(spellID)
-		groups[stype][id] = t
-		if addon.Anchors["Group_"..stype] and srcGUID ~= UnitGUID("player") and addon:IsHostile(srcFlags) then
-			addon:UpdateGroupAnchor(addon.Anchors["Group_"..stype], srcFlags)
+		if addon:IsHostile(srcFlags) then
+			print(srcName)
+			if not groups[stype] then
+				groups[stype] = { }
+			end
+			local id = tostring(srcGUID).."|"..tostring(spellID)
+			groups[stype][id] = t
+			if addon.Anchors["Group_"..stype] then
+				addon:UpdateGroupAnchor(addon.Anchors["Group_"..stype], srcFlags)
+			end
 		end
 
 		-- handle cooldown resetting spells

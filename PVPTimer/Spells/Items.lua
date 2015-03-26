@@ -30,12 +30,12 @@ local spells = {
 		type = 'offensive',
 	},]]
 	-- Lightweave Embroidery
-	[125487] = {
+	--[[[125487] = {
 		class = 'ITEM',
 		duration = 15,
 		cooldown = 45,
 		type = 'offensive',
-	},
+	},]]
 	-- Phase Fingers
 	--[[[108788] = {
 		class = 'ITEM',

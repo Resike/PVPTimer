@@ -2,12 +2,12 @@ local addon = PVPTimer
 
 local spells = {
 	-- Arcane Torrent (Blood Elf)
-	[69179] = 28730,	--Rage
-	[25046] = 28730,	--Energy
-	[80483] = 28730,	--Focus
-	[50613] = 28730,	--Runic
-	[129597] = 28730,	--Chi
-	[28730] = {			--Mana
+	[69179] = 28730,	-- Rage
+	[25046] = 28730,	-- Energy
+	[80483] = 28730,	-- Focus
+	[50613] = 28730,	-- Runic
+	[129597] = 28730,	-- Chi
+	[28730] = {			-- Mana
 		class = 'RACIAL',
 		cooldown = 120,
 		type = 'interrupt'
@@ -20,9 +20,9 @@ local spells = {
 		type = 'offensive',
 	},
 	-- Blood Fury (Orc)
-	[33697] = 20572,	--Attack Power and Spell Power
-	[33702] = 20572,	--Spell Power
-	[20572] = {			--Attack Power
+	[33697] = 20572,	-- Attack Power and Spell Power
+	[33702] = 20572,	-- Spell Power
+	[20572] = {			-- Attack Power
 		class = 'RACIAL',
 		duration = 15,
 		cooldown = 120,
@@ -49,14 +49,14 @@ local spells = {
 		type = 'defensive',
 	},
 	-- Gift of the Naaru (Dranei)
-	[59543] = 59545,	--Hunter
-	[59548] = 59545,	--Mage
-	[121093] = 59545,	--Monk
-	[59542] = 59545,	--Paladin
-	[59544] = 59545,	--Priest
-	[59547] = 59545,	--Shaman
-	[28880] = 59545,	--Warrior
-	[59545] = { 		--DK
+	[59543] = 59545,	-- Hunter
+	[59548] = 59545,	-- Mage
+	[121093] = 59545,	-- Monk
+	[59542] = 59545,	-- Paladin
+	[59544] = 59545,	-- Priest
+	[59547] = 59545,	-- Shaman
+	[28880] = 59545,	-- Warrior
+	[59545] = { 		-- Death Knight
 		class = 'RACIAL',
 		cooldown = 180,
 		type = 'defensive',

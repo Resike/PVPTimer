@@ -183,7 +183,7 @@ local spells = {
 	[102359] = {
 		class = 'DRUID',
 		duration = 10,
-		cooldown = 120,
+		cooldown = 30,
 		type = 'root',
 	},
 	-- Disorienting Roar

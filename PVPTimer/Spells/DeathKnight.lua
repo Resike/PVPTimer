@@ -36,6 +36,13 @@ local spells = {
 		cooldown = 30,
 		type = 'offensive',
 	},
+	-- Desecrated Ground
+	[108201] = {
+		class = 'DEATHKNIGHT',
+		cooldown = 120,
+		duration = 10,
+		type = 'defensive',
+	},
 	-- Pillar of Frost
 	[51271] = {
 		class = 'DEATHKNIGHT',
@@ -152,7 +159,7 @@ local spells = {
 	[108194] = {
 		class = 'DEATHKNIGHT',
 		duration = 10,
-		cooldown = 60,
+		cooldown = 30,
 		type = 'cc',
 	},
 	-- Dark Simulacrum

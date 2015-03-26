@@ -24,7 +24,7 @@ local testspec = "Interface\\Icons\\Spell_Magic_PolymorphChicken"
 -- copy often used stuff to local variables
 local units = addon.Units
 local specs = addon.Specs
-local LastEvent, LastEventTime, LastEventSource, LastEventSpell
+local LastEvent, LastEventSource, LastEventSpellId
 
 local _G = _G
 local pairs = pairs
@@ -855,11 +855,12 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, hideCast
 	end
 
 	-- workaround for combatlog bug (2 exact same entries generated for 1 event)
-	if LastEventSource == srcGUID and LastEventSpell == spellName then
+	if LastEvent == event and LastEventSource == srcGUID and LastEventSpellId == spellID then
 		return
 	end
+	LastEvent = event
 	LastEventSource = srcGUID
-	LastEventSpell = spellName
+	LastEventSpellId = spellID
 
 	-- record unit data
 	local srcUnit

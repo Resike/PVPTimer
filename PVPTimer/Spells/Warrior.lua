@@ -44,11 +44,11 @@ local spells = {
 		type = 'offensive',
 	},
 	-- Heroic Throw
-	[57755] = { 
+	--[[[57755] = {
 		class = 'WARRIOR',
-		cooldown = 30,
+		cooldown = 6,
 		type = 'cc', -- Silence glyphed
-	},
+	},]]
 	-- Bladestorm
 	[46924] = {
 		class = 'WARRIOR',
@@ -128,7 +128,7 @@ local spells = {
 		cooldown = 15,
 		type = 'interrupt',
 	},
-	-- Charge
+	-- Charge/Warbringer
 	[100] = {
 		class = 'WARRIOR',
 		duration = 1.5,
@@ -181,7 +181,7 @@ local spells = {
 	[114028] = {
 		class = 'WARRIOR',
 		duration = 5,
-		cooldown = 60,
+		cooldown = 30,
 		type = 'defensive',
 	},
 	-- Vigilance
@@ -195,16 +195,16 @@ local spells = {
 	[107574] = {
 		class = 'WARRIOR',
 		duration = 20,
-		cooldown = 180,
+		cooldown = 90,
 		type = 'offensive',
 	},
 	-- Staggering Shout
-	[107566] = {
+	--[[[107566] = {
 		class = 'WARRIOR',
 		duration = 5,
 		cooldown = 40,
 		type = 'root',
-	},
+	},]]
 	-- Storm Bolt
 	[107570] = {
 		class = 'WARRIOR',
@@ -219,12 +219,26 @@ local spells = {
 		cooldown = 60,
 		type = 'cc',
 	},
+	-- Ravager
+	[152277] = {
+		class = 'WARRIOR',
+		duration = 10,
+		cooldown = 60,
+		type = 'offensive',
+	},
+	-- Siegebreaker
+	[176289] = {
+		class = 'WARRIOR',
+		duration = 1,
+		cooldown = 45,
+		type = 'cc',
+	},
 	-- Disrupting Shout
-	[102060] = {
+	--[[[102060] = {
 		class = 'WARRIOR',
 		cooldown = 40,
 		type = 'interrupt',
-	},
+	},]]
 }
 
 local spec = {

@@ -38,7 +38,7 @@ local spells = {
 	-- Escape Artist (Gnome)
 	[20589] = {
 		class = 'RACIAL',
-		cooldown = 90,
+		cooldown = 60,
 		type = 'defensive',
 	},
 	-- Every Man For Himself (Human)
